@@ -43,19 +43,8 @@ const infoItems = [
         results-oriented, and committed to continuous learning.
       </p>
 
-      <!-- Two-column: photo + details -->
-      <div class="grid gap-12 lg:grid-cols-[380px_1fr] items-start">
-
-        <!-- Photo -->
-        <div class="rounded-2xl overflow-hidden border border-border bg-secondary aspect-[4/5] flex items-center justify-center text-muted-foreground/30">
-          <img
-            src="/lanyard-photo.jpg"
-            alt="Syah Rizan Nazri Muhammad"
-            class="w-full h-full object-cover"
-            onerror="this.style.display='none'"
-          />
-        </div>
-
+      <!-- Info section (no photo) -->
+      <div class="max-w-2xl mx-auto">
         <!-- Info + role description -->
         <div class="space-y-6">
           <div>
