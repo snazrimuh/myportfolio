@@ -1,0 +1,226 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Class-based dark mode for Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─── Light theme (default) ─────────────────────────────── */
+:root {
+  --background: 0 0% 99%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 214 32% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 214 32% 96%;
+  --muted-foreground: 215 20% 50%;
+  --accent: 221 83% 53% / 0.10;
+  --accent-foreground: 221 83% 40%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 214 32% 91%;
+  --input: 214 32% 94%;
+  --ring: 221 83% 53%;
+  --sidebar: 0 0% 97%;
+  --sidebar-border: 214 32% 91%;
+}
+
+/* ─── Dark theme ─────────────────────────────────────────── */
+:root.dark {
+  --background: 222 47% 5%;
+  --foreground: 213 31% 91%;
+  --card: 222 40% 7%;
+  --card-foreground: 213 31% 91%;
+  --popover: 222 40% 7%;
+  --popover-foreground: 213 31% 91%;
+  --primary: 221 83% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 222 40% 10%;
+  --secondary-foreground: 213 31% 91%;
+  --muted: 222 40% 10%;
+  --muted-foreground: 215 20% 48%;
+  --accent: 221 83% 60% / 0.12;
+  --accent-foreground: 221 83% 70%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 222 40% 13%;
+  --input: 222 40% 10%;
+  --ring: 221 83% 60%;
+  --sidebar: 222 47% 4%;
+  --sidebar-border: 222 40% 10%;
+}
+
+@theme inline {
+  --font-display: "Syne", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-mono: ui-monospace, "Fira Code", monospace;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  /* Section heading divider */
+  .section-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-divider h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    letter-spacing: -0.02em;
+  }
+  .section-divider::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 3px;
+    border-radius: 9999px;
+    background: hsl(var(--primary));
+  }
+
+  /* Section eyebrow label */
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.688rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: hsl(var(--primary));
+    font-family: var(--font-sans);
+  }
+
+  /* Minimal card */
+  .minimal-card {
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .minimal-card:hover {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 0 4px 24px hsl(var(--primary) / 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* Gradient heading */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 10%, hsl(var(--primary)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Fade divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+  }
+
+  /* Timeline line used in experience/resume section */
+  .timeline-line {
+    position: absolute;
+    left: 0.5rem;
+    top: 1.5rem;
+    bottom: 0;
+    width: 1px;
+    background: hsl(var(--border));
+  }
+  .timeline-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    background: hsl(var(--card));
+    border: 2px solid hsl(var(--primary));
+    flex-shrink: 0;
+  }
+
+  /* Carousel nav buttons */
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+  }
+  .carousel-nav:hover {
+    background: hsl(var(--primary));
+    color: white;
+    border-color: hsl(var(--primary));
+  }
+  .carousel-nav:disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+  .carousel-nav-left  { left: -1rem;  }
+  .carousel-nav-right { right: -1rem; }
+  .group\/carousel:hover .carousel-nav:not(:disabled) { opacity: 1; }
+
+  /* Font helpers */
+  .font-display { font-family: var(--font-display); }
+  .font-mono    { font-family: var(--font-mono); }
+
+  /* Sidebar transition helper */
+  .sidebar-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+}

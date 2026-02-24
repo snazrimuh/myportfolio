@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Admin User ───────────────────────────────────────────
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
+// ─── Skill Categories ─────────────────────────────────────
+model SkillCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  icon      String   // icon name (e.g. "Monitor", "Server")
+  color     String   // rgba color string
+  order     Int      @default(0)
+  skills    Skill[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("skill_categories")
+}
+
+model Skill {
+  id         Int           @id @default(autoincrement())
+  name       String
+  categoryId Int           @map("category_id")
+  category   SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now()) @map("created_at")
+
+  @@map("skills")
+}
+
+// ─── Projects ─────────────────────────────────────────────
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  tech        Json     @default("[]") // stored as JSON array
+  github      String?
+  liveUrl     String?  @map("live_url")
+  image       String?
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("projects")
+}
+
+// ─── Experience ───────────────────────────────────────────
+model Experience {
+  id          Int      @id @default(autoincrement())
+  title       String   // e.g. "Backend Developer Intern"
+  company     String   // e.g. "AirNav Indonesia"
+  location    String?
+  startDate   DateTime @map("start_date")
+  endDate     DateTime? @map("end_date") // null = present
+  description String?
+  type        ExperienceType @default(WORK)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("experiences")
+}
+
+enum ExperienceType {
+  WORK
+  INTERNSHIP
+  EDUCATION
+  CERTIFICATION
+}
+
+// ─── Contact Messages ─────────────────────────────────────
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}

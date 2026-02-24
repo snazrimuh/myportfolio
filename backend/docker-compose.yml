@@ -1,0 +1,43 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: portfolio_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: portfolio
+      MYSQL_USER: portfolio_user
+      MYSQL_PASSWORD: portfolio_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "portfolio_user", "-pportfolio_pass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: mysql://portfolio_user:portfolio_pass@mysql:3306/portfolio
+      JWT_SECRET: portfolio-admin-jwt-secret-key-2026
+      JWT_EXPIRES_IN: 1d
+      ADMIN_EMAIL: admin@portfolio.com
+      ADMIN_PASSWORD: admin123
+      PORT: 3001
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: >
+      sh -c "npx prisma migrate deploy && node dist/prisma/seed.js ; node dist/main.js"
+
+volumes:
+  mysql_data:
