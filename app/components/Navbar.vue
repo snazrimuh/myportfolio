@@ -41,7 +41,7 @@ onMounted(() => {
 <template>
   <!-- ── Desktop sidebar (vertical, left, centered) ── -->
   <nav
-    class="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-start gap-2"
+    class="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-start gap-3"
     aria-label="Site navigation"
   >
     <button
@@ -55,17 +55,18 @@ onMounted(() => {
       <!-- Active pill -->
       <div
         v-if="activeSection === item.id"
-        class="flex items-center gap-2.5 rounded-full px-4 py-2.5 bg-primary text-white shadow-lg shadow-primary/25 text-sm font-semibold font-display"
+        class="flex items-center gap-3 rounded-full px-5 py-3 bg-primary text-white shadow-lg shadow-primary/25 text-base font-semibold font-display"
       >
-        <component :is="item.icon" class="h-4 w-4 shrink-0" />
+        <component :is="item.icon" class="h-5 w-5 shrink-0" />
         <span>{{ item.label }}</span>
       </div>
       <!-- Inactive circle -->
       <div
         v-else
-        class="w-10 h-10 rounded-full flex items-center justify-center bg-sidebar border border-sidebar-border text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
+        class="flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground group-hover:text-white group-hover:bg-primary group-hover:border-primary transition-all duration-200"
       >
-        <component :is="item.icon" class="h-4 w-4" />
+        <component :is="item.icon" class="h-5 w-5 shrink-0" />
+        <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ item.label }}</span>
       </div>
     </button>
 
@@ -74,12 +75,13 @@ onMounted(() => {
 
     <!-- Theme toggle -->
     <button
-      class="w-10 h-10 rounded-full flex items-center justify-center bg-sidebar border border-sidebar-border text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-all duration-200"
+      class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-white hover:bg-primary hover:border-primary transition-all duration-200"
       :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
       @click="toggleTheme"
     >
-      <Sun v-if="isDark" class="h-4 w-4" />
-      <Moon v-else class="h-4 w-4" />
+      <Sun v-if="isDark" class="h-5 w-5 shrink-0" />
+      <Moon v-else class="h-5 w-5 shrink-0" />
+      <span class="hidden hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ isDark ? 'Light' : 'Dark' }}</span>
     </button>
   </nav>
 

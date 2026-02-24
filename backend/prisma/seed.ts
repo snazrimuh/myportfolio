@@ -33,42 +33,42 @@ async function main() {
       icon: 'Monitor',
       color: 'rgba(59, 130, 246, 0.1)',
       order: 1,
-      skills: ['Vue.js', 'Nuxt.js', 'Next.js', 'TypeScript', 'Tailwind CSS', 'HTML/CSS'],
+      skills: ['Vue.js', 'Nuxt.js', 'Next.js', 'React.js', 'TypeScript', 'Tailwind CSS', 'Bootstrap', 'HTML/CSS', 'Jetpack Compose'],
     },
     {
       name: 'Backend',
       icon: 'Server',
       color: 'rgba(16, 185, 129, 0.1)',
       order: 2,
-      skills: ['NestJS', 'Node.js', 'Express', 'Python', 'REST API', 'GraphQL'],
+      skills: ['NestJS', 'Node.js', 'Express.js', 'Laravel', 'PHP', 'REST API', 'Python'],
     },
     {
       name: 'Database',
       icon: 'Database',
       color: 'rgba(245, 158, 11, 0.1)',
       order: 3,
-      skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Firebase', 'Prisma', 'TypeORM'],
+      skills: ['PostgreSQL', 'MySQL', 'MariaDB', 'MongoDB', 'Firebase', 'Prisma'],
     },
     {
-      name: 'IoT & Embedded',
+      name: 'Mobile & IoT',
       icon: 'Cpu',
       color: 'rgba(239, 68, 68, 0.1)',
       order: 4,
-      skills: ['ESP8266', 'Orange Pi', 'Arduino', 'Sensor Integration', 'MQTT'],
+      skills: ['Kotlin', 'Retrofit', 'ESP8266', 'Arduino', 'MQTT', 'Sensor Integration', 'Orange Pi'],
     },
     {
-      name: 'AI & ML',
+      name: 'AI & Machine Learning',
       icon: 'Brain',
       color: 'rgba(168, 85, 247, 0.1)',
       order: 5,
-      skills: ['YOLOv5', 'Machine Learning', 'Computer Vision', 'Python ML'],
+      skills: ['TensorFlow', 'Python', 'Computer Vision', 'Pandas', 'NumPy', 'Scikit-learn'],
     },
     {
       name: 'DevOps & Tools',
       icon: 'Wrench',
       color: 'rgba(139, 92, 246, 0.1)',
       order: 6,
-      skills: ['Git', 'Docker', 'CI/CD', 'Linux', 'Nginx', 'Vercel'],
+      skills: ['Git', 'Docker', 'CI/CD', 'AWS', 'GCP', 'Firebase', 'Postman', 'Figma', 'Linux', 'Vercel'],
     },
   ];
 
@@ -93,7 +93,7 @@ async function main() {
   } else {
   const projects = [
     {
-      title: 'New Arsipku',
+      title: 'Correspondence System (New Arsipku)',
       description:
         'A modern correspondence system for AirNav Indonesia built with NestJS, improving performance, scalability, and maintainability for daily internal and external official communications.',
       tech: ['TypeScript', 'NestJS', 'MySQL', 'REST API'],
@@ -102,13 +102,67 @@ async function main() {
       order: 1,
     },
     {
-      title: 'NavEvent',
+      title: 'Event Management (NavEvent)',
       description:
-        'A digital platform for efficiency and transparency in managing AirNav Indonesia activities. Enables real-time paperless workflows, accelerated certificate distribution, and real-time dashboards.',
+        'Digital platform for AirNav Indonesia enabling paperless workflows, certificate distribution, and real-time admin dashboards for comprehensive event tracking.',
       tech: ['PHP', 'Laravel', 'MySQL', 'CI/CD'],
       github: 'https://github.com/snazrimuh/airnav-navevent-be',
       image: '/nav-event.png',
       order: 2,
+    },
+    {
+      title: 'Online Service System',
+      description:
+        'Fullstack web application for Kab. Sukohajo providing online services to citizens with improved accessibility and service delivery capabilities.',
+      tech: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'ReactJS'],
+      github: 'https://github.com/snazrimuh',
+      image: '/online-service.png',
+      order: 3,
+    },
+    {
+      title: 'Election System UNS',
+      description:
+        'Digital election platform for Universitas Sebelas Maret enabling secure voting with real-time result management and authentication systems.',
+      tech: ['Laravel', 'MySQL', 'PHP', 'HTML/CSS'],
+      github: 'https://github.com/snazrimuh',
+      image: '/election-system.png',
+      order: 4,
+    },
+    {
+      title: 'Stunting Monitoring System',
+      description:
+        'Web-based monitoring platform for tracking stunting cases with data visualization and reporting capabilities for healthcare professionals.',
+      tech: ['Node.js', 'Express', 'MongoDB', 'ReactJS'],
+      github: 'https://github.com/snazrimuh',
+      image: '/stunting-monitoring.png',
+      order: 5,
+    },
+    {
+      title: 'BCA Revamp Mobile App',
+      description:
+        'Mobile application with accessibility focus achieving 100% WCAG 2.1 compliance. Improved performance 30% using Kotlin Coroutines with Clean Architecture.',
+      tech: ['Kotlin', 'Jetpack Compose', 'Retrofit', 'MVVM'],
+      github: 'https://github.com/snazrimuh',
+      image: '/bca-revamp.png',
+      order: 6,
+    },
+    {
+      title: 'TransJogja Route Optimization',
+      description:
+        'Machine learning project optimizing public transportation routes using YOLOv5 for object detection and predictive models for route efficiency.',
+      tech: ['Python', 'YOLOv5', 'TensorFlow', 'Machine Learning'],
+      github: 'https://github.com/snazrimuh',
+      image: '/transjogja.png',
+      order: 7,
+    },
+    {
+      title: 'Career Recommendation System',
+      description:
+        'AI-powered platform using machine learning to suggest suitable career paths based on user skills and preferences with multiple learning options.',
+      tech: ['Python', 'Machine Learning', 'TensorFlow', 'Pandas'],
+      github: 'https://github.com/snazrimuh',
+      image: '/career-recommendation.png',
+      order: 8,
     },
   ];
 
@@ -125,64 +179,80 @@ async function main() {
   } else {
   const experiences = [
     {
-      title: 'Backend Developer Intern',
-      company: 'AirNav Indonesia',
+      title: 'Backend Developer',
+      company: 'Lembaga Penyelenggara Pelayanan Navigasi Penerbangan Indonesia (AirNav Indonesia)',
       location: 'Tangerang, Indonesia',
-      startDate: new Date('2024-02-01'),
-      endDate: new Date('2024-07-31'),
+      startDate: new Date('2025-10-01'),
       description:
-        'Developed backend systems and APIs for internal correspondence and event management platforms.',
-      type: ExperienceType.INTERNSHIP,
+        'Built RESTful APIs for navigation systems. Optimized DB queries by 40%. Implemented CI/CD pipelines.',
+      type: ExperienceType.WORK,
       order: 1,
     },
     {
-      title: 'IT Support Intern',
-      company: 'DKP3 Sukabumi',
-      location: 'Sukabumi, Indonesia',
-      startDate: new Date('2023-07-01'),
-      endDate: new Date('2023-12-31'),
+      title: 'AI Specialist',
+      company: 'Outlier AI',
+      location: 'California, United States (Remote)',
+      startDate: new Date('2024-10-01'),
+      endDate: new Date('2025-03-31'),
       description:
-        'Provided technical support and system maintenance for government IT infrastructure.',
-      type: ExperienceType.INTERNSHIP,
+        'Enhanced LLM accuracy by 15% through scenario evaluation. Debugged AI code for training datasets.',
+      type: ExperienceType.WORK,
       order: 2,
     },
     {
-      title: 'IoT Developer Intern',
-      company: 'Joglo Kebun Wangi',
-      location: 'Bogor, Indonesia',
-      startDate: new Date('2023-01-01'),
-      endDate: new Date('2023-06-30'),
+      title: 'Backend Trainee',
+      company: 'AWS Back-End Academy',
+      location: 'Jakarta, Indonesia',
+      startDate: new Date('2025-01-01'),
+      endDate: new Date('2025-02-28'),
       description:
-        'Built IoT monitoring solutions for hydroponic farming systems.',
-      type: ExperienceType.INTERNSHIP,
+        'Deployed AWS apps with 25% cost improvement. Implemented Docker and CI/CD reducing inconsistencies by 40%.',
+      type: ExperienceType.WORK,
       order: 3,
     },
     {
-      title: 'Computer Engineering Technology',
-      company: 'Institut Pertanian Bogor',
-      location: 'Bogor, Indonesia',
-      startDate: new Date('2021-08-01'),
-      endDate: new Date('2025-07-31'),
-      description: 'GPA 3.48/4.00 — IPB Vocational School',
+      title: 'Mobile Developer Bootcamp',
+      company: 'SYNRGY Academy presented by PT. Bank Central Asia',
+      location: 'Jakarta, Indonesia',
+      startDate: new Date('2024-02-01'),
+      endDate: new Date('2024-09-30'),
+      description:
+        'Built BCA Mobile app with 100% WCAG 2.1 compliance. Improved 30% using Kotlin with 30+ APIs.',
       type: ExperienceType.EDUCATION,
       order: 4,
     },
     {
-      title: 'Software Engineering Certification',
-      company: 'BNSP',
-      startDate: new Date('2024-06-01'),
-      description: 'National Professional Certification in Software Engineering',
-      type: ExperienceType.CERTIFICATION,
+      title: 'Machine Learning Cohort',
+      company: 'Bangkit Academy led by Google, Tokopedia, Gojek & Traveloka',
+      location: 'Jakarta, Indonesia',
+      startDate: new Date('2023-08-01'),
+      endDate: new Date('2024-01-31'),
+      description:
+        'Completed 500+ hours of ML courses. Led team developing Recommendation App scoring 92/100.',
+      type: ExperienceType.EDUCATION,
       order: 5,
     },
     {
-      title: 'Hardware Installation Supervisor Certification',
-      company: 'BNSP',
-      startDate: new Date('2024-06-01'),
+      title: 'Head of Networking and Collaboration Division',
+      company: 'Himpunan Mahasiswa Informatika UNS',
+      location: 'Surakarta, Indonesia',
+      startDate: new Date('2022-02-01'),
+      endDate: new Date('2023-01-31'),
       description:
-        'National Professional Certification in Hardware Installation Supervision',
-      type: ExperienceType.CERTIFICATION,
+        'Partnered with 30+ tech companies. Coordinated 10 events with 300+ participants.',
+      type: ExperienceType.WORK,
       order: 6,
+    },
+    {
+      title: 'S1 Informatics',
+      company: 'Universitas Sebelas Maret',
+      location: 'Surakarta, Indonesia',
+      startDate: new Date('2021-08-01'),
+      endDate: new Date('2025-07-31'),
+      description:
+        'Degree in Computer Science. Thesis: YOLOv5 Traffic Detection. GPA: 3.75/4.00 (cum laude)',
+      type: ExperienceType.EDUCATION,
+      order: 7,
     },
   ];
 
