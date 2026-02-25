@@ -34,7 +34,9 @@ function formatRange(start: string, end: string | null) {
 // Detect section label change to render a heading before the first item of each group
 function showSectionHeader(index: number) {
   if (index === 0) return true
-  return items.value[index]._section !== items.value[index - 1]._section
+  const current = items.value[index]
+  const previous = items.value[index - 1]
+  return current?._section !== previous?._section
 }
 </script>
 
