@@ -45,19 +45,27 @@ model Skill {
 
 // ─── Projects ─────────────────────────────────────────────
 model Project {
-  id          Int      @id @default(autoincrement())
+  id          Int             @id @default(autoincrement())
   title       String
   description String
-  tech        Json     @default("[]") // stored as JSON array
+  tech        Json            @default("[]") // stored as JSON array
+  category    ProjectCategory @default(FULLSTACK)
   github      String?
-  liveUrl     String?  @map("live_url")
+  liveUrl     String?         @map("live_url")
   image       String?
-  featured    Boolean  @default(false)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  featured    Boolean         @default(false)
+  order       Int             @default(0)
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
 
   @@map("projects")
+}
+
+enum ProjectCategory {
+  BACKEND
+  FULLSTACK
+  MOBILE
+  ML_DL
 }
 
 // ─── Experience ───────────────────────────────────────────

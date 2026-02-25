@@ -6,7 +6,9 @@ import {
   IsArray,
   IsBoolean,
   IsUrl,
+  IsEnum,
 } from 'class-validator';
+import { ProjectCategory } from '@prisma/client';
 
 export class CreateProjectDto {
   @IsString()
@@ -32,6 +34,10 @@ export class CreateProjectDto {
   @IsString()
   @IsOptional()
   image?: string;
+
+  @IsEnum(ProjectCategory)
+  @IsOptional()
+  category?: ProjectCategory;
 
   @IsBoolean()
   @IsOptional()

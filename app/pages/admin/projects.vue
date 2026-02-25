@@ -18,6 +18,7 @@ interface Project {
   title: string
   description: string
   tech: string[]
+  category: 'BACKEND' | 'FULLSTACK' | 'MOBILE' | 'ML_DL'
   github?: string
   liveUrl?: string
   image?: string
@@ -35,6 +36,7 @@ const form = reactive({
   description: '',
   techInput: '',
   tech: [] as string[],
+  category: 'FULLSTACK' as 'BACKEND' | 'FULLSTACK' | 'MOBILE' | 'ML_DL',
   github: '',
   liveUrl: '',
   image: '',
@@ -58,6 +60,7 @@ function openEdit(project: Project) {
   form.description = project.description
   form.tech = [...project.tech]
   form.techInput = ''
+  form.category = project.category
   form.github = project.github || ''
   form.liveUrl = project.liveUrl || ''
   form.image = project.image || ''
@@ -71,6 +74,7 @@ function resetForm() {
   form.description = ''
   form.techInput = ''
   form.tech = []
+  form.category = 'FULLSTACK'
   form.github = ''
   form.liveUrl = ''
   form.image = ''
@@ -96,6 +100,7 @@ async function handleSubmit() {
     title: form.title,
     description: form.description,
     tech: form.tech,
+    category: form.category,
     github: form.github || undefined,
     liveUrl: form.liveUrl || undefined,
     image: form.image || undefined,
@@ -156,6 +161,16 @@ onMounted(fetchProjects)
             <div class="space-y-2">
               <label class="text-sm font-medium">Title</label>
               <Input v-model="form.title" placeholder="Project title" required />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-medium">Category</label>
+              <select v-model="form.category" class="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="BACKEND">Backend</option>
+                <option value="FULLSTACK">Fullstack</option>
+                <option value="MOBILE">Mobile</option>
+                <option value="ML_DL">ML / DL</option>
+              </select>
             </div>
 
             <div class="space-y-2">
@@ -234,6 +249,7 @@ onMounted(fetchProjects)
               <tr class="border-b border-border text-left text-muted-foreground">
                 <th class="p-3">#</th>
                 <th class="p-3">Title</th>
+                <th class="p-3 hidden sm:table-cell">Category</th>
                 <th class="p-3 hidden md:table-cell">Tech</th>
                 <th class="p-3 hidden sm:table-cell">Featured</th>
                 <th class="p-3 text-right">Actions</th>
@@ -256,6 +272,19 @@ onMounted(fetchProjects)
                   >
                     <ExternalLink class="h-3 w-3 text-muted-foreground" />
                   </a>
+                </td>
+                <td class="p-3 hidden sm:table-cell">
+                  <Badge
+                    :class="{
+                      'bg-emerald-500/10 text-emerald-600 border-0': project.category === 'BACKEND',
+                      'bg-blue-500/10 text-blue-600 border-0': project.category === 'FULLSTACK',
+                      'bg-violet-500/10 text-violet-600 border-0': project.category === 'MOBILE',
+                      'bg-amber-500/10 text-amber-600 border-0': project.category === 'ML_DL',
+                    }"
+                    variant="secondary"
+                  >
+                    {{ { BACKEND: 'Backend', FULLSTACK: 'Fullstack', MOBILE: 'Mobile', ML_DL: 'ML / DL' }[project.category] }}
+                  </Badge>
                 </td>
                 <td class="p-3 hidden md:table-cell">
                   <div class="flex flex-wrap gap-1">
@@ -281,7 +310,7 @@ onMounted(fetchProjects)
                 </td>
               </tr>
               <tr v-if="!projects.length">
-                <td colspan="5" class="p-8 text-center text-muted-foreground">No projects yet</td>
+                <td colspan="6" class="p-8 text-center text-muted-foreground">No projects yet</td>
               </tr>
             </tbody>
           </table>

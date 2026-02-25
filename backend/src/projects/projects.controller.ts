@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   Body,
+  Query,
   ParseIntPipe,
   UseGuards,
 } from '@nestjs/common';
@@ -13,6 +14,7 @@ import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ProjectCategory } from '@prisma/client';
 
 @Controller('projects')
 export class ProjectsController {
@@ -20,8 +22,8 @@ export class ProjectsController {
 
   // ── Public ──────────────────────────────────────────────
   @Get()
-  findAll() {
-    return this.projectsService.findAll();
+  findAll(@Query('category') category?: ProjectCategory) {
+    return this.projectsService.findAll(category);
   }
 
   @Get('featured')

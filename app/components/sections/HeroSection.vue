@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Github, Linkedin, Mail, Twitter, Instagram, Facebook, ArrowDown } from 'lucide-vue-next'
 
-const roles = ['Backend Developer', 'Software Engineer', 'API Designer', 'IoT Enthusiast']
+const roles = ['Backend Developer', 'Fullstack Engineer', 'API Designer']
 const currentRoleIndex = ref(0)
 const displayedRole = ref(roles[0]!)
 const isDeleting = ref(false)
@@ -50,10 +50,10 @@ onMounted(() => {
     <div class="absolute top-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
     <div class="absolute bottom-40 left-20 w-64 h-64 bg-primary/8 rounded-full blur-2xl pointer-events-none" />
 
-    <div class="relative z-10 container mx-auto px-8 max-w-4xl h-screen flex flex-col justify-center pb-16">
+    <div class="relative z-10 container mx-auto px-8 max-w-5xl h-screen flex flex-col justify-center pb-24 lg:pb-16 pt-20 lg:pt-0">
 
       <!-- Open to work badge -->
-      <div class="inline-flex items-center gap-2 mb-8">
+      <div class="inline-flex items-center gap-2 mb-6">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -62,13 +62,13 @@ onMounted(() => {
       </div>
 
       <!-- Name -->
-      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.05] mb-5">
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.05] mb-4">
         Syah Rizan<br />
         <span class="text-gradient">Nazri Muhammad</span>
       </h1>
 
       <!-- Typewriter role -->
-      <p class="text-xl sm:text-2xl text-muted-foreground mb-8 font-display">
+      <p class="text-xl sm:text-2xl text-muted-foreground mb-6 font-display">
         I'm
         <span class="text-foreground font-semibold border-b-2 border-primary pb-0.5">
           {{ displayedRole }}<span class="animate-pulse">|</span>
@@ -76,9 +76,9 @@ onMounted(() => {
       </p>
 
       <!-- Short bio -->
-      <p class="text-base text-muted-foreground max-w-xl leading-relaxed mb-10">
-        Fresh graduate with a passion for clean backends, scalable APIs, and IoT-driven systems.
-        Based in Tangerang, Indonesia.
+      <p class="text-base text-muted-foreground max-w-xl leading-relaxed mb-8">
+        Software Engineer specializing in scalable backend systems, API architecture, and fullstack engineering for impactful products.
+        <br>Based in Tangerang City, Indonesia.
       </p>
 
       <!-- Social links -->

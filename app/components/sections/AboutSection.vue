@@ -20,8 +20,8 @@ onMounted(async () => {
 })
 
 const infoItems = [
-  { label: 'City',      value: 'Tangerang, Indonesia' },
-  { label: 'Degree',    value: 'D4 Computer Engineering' },
+  { label: 'City',      value: 'Tangerang City, Indonesia' },
+  { label: 'Degree',    value: 'S1 Informatics' },
   { label: 'Email',     value: 'snazrimuh@gmail.com' },
   { label: 'Freelance', value: 'Available' },
 ]
@@ -36,65 +36,75 @@ const infoItems = [
         <h2>About</h2>
       </div>
 
-      <!-- Bio summary -->
-      <p class="text-center text-muted-foreground text-base leading-relaxed max-w-2xl mx-auto mb-14">
-        I am a fresh graduate of the Computer Engineering Technology Program at IPB Vocational School
-        with a strong interest in Backend Development, IT systems, and web technologies. Disciplined,
-        results-oriented, and committed to continuous learning.
+      <!-- General bio summary -->
+      <p class="text-muted-foreground text-base leading-relaxed text-justify mb-10">
+        I am a Software Engineer with a strong passion for building scalable backend systems, clean APIs, and reliable fullstack applications. With hands-on experience across backend development, mobile, and data-driven projects, I focus on creating efficient, maintainable solutions that solve real-world problems.
+        I enjoy designing clean architectures, optimizing system performance, and translating complex requirements into practical and impactful digital products. Adaptable and collaborative by nature, I continuously explore new technologies and best practices to grow as an engineer and contribute to meaningful technology-driven environments.
       </p>
 
-      <!-- Info section (no photo) -->
-      <div class="max-w-2xl mx-auto">
-        <!-- Info + role description -->
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-xl font-bold font-display text-foreground mb-2">Backend Developer &amp; Software Engineer.</h3>
-            <p class="text-sm text-muted-foreground italic leading-relaxed">
-              I have experience in backend system development, API design, database management,
-              and IoT-based solutions. I'm accustomed to working in project-based environments
-              and collaborating effectively to solve problems in a structured manner.
+      <!-- Role sub-sections -->
+      <div class="grid gap-5 sm:grid-cols-2 mb-10">
+        <!-- Backend & Fullstack -->
+        <div class="minimal-card rounded-2xl p-6 space-y-2">
+          <h3 class="text-base font-bold font-display text-foreground">Backend Developer &amp; Software Engineer</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed text-justify">
+            Experienced in backend system development, API design, database management, and IoT-based solutions.
+            Accustomed to working in project-based environments and collaborating effectively to solve problems
+            in a structured and maintainable manner.
+          </p>
+        </div>
+
+        <!-- ML & AI -->
+        <div class="minimal-card rounded-2xl p-6 space-y-2">
+          <h3 class="text-base font-bold font-display text-foreground">ML &amp; AI Engineer</h3>
+          <p class="text-sm text-muted-foreground leading-relaxed text-justify">
+            Experienced in building machine learning pipelines, training deep learning models, and integrating
+            AI capabilities into real-world applications. Passionate about data-driven solutions and applying
+            modern AI techniques to solve practical problems.
+          </p>
+        </div>
+      </div>
+
+      <!-- Info & Stats -->
+      <div class="space-y-6">
+        <!-- Info grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
+          <div
+            v-for="item in infoItems"
+            :key="item.label"
+            class="flex items-center gap-2 text-sm"
+          >
+            <ChevronRight class="h-3.5 w-3.5 text-primary shrink-0" />
+            <span class="font-semibold text-foreground min-w-[4rem]">{{ item.label }}:</span>
+            <span class="text-muted-foreground">{{ item.value }}</span>
+          </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-3 gap-4 pt-2">
+          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
+            <p class="text-2xl font-bold font-display text-primary">
+              <EffectsCountUp :target="internships.length" :duration="2000" suffix="+" />
             </p>
+            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Internships</p>
           </div>
-
-          <!-- Info grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
-            <div
-              v-for="item in infoItems"
-              :key="item.label"
-              class="flex items-center gap-2 text-sm"
-            >
-              <ChevronRight class="h-3.5 w-3.5 text-primary shrink-0" />
-              <span class="font-semibold text-foreground min-w-[4rem]">{{ item.label }}:</span>
-              <span class="text-muted-foreground">{{ item.value }}</span>
-            </div>
+          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
+            <p class="text-2xl font-bold font-display text-primary">
+              <EffectsCountUp :target="15" :duration="2000" suffix="+" />
+            </p>
+            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Projects</p>
           </div>
-
-          <!-- Stats row -->
-          <div class="grid grid-cols-3 gap-4 pt-2">
-            <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-              <p class="text-2xl font-bold font-display text-primary">
-                <EffectsCountUp :target="internships.length" :duration="2000" suffix="+" />
-              </p>
-              <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Internships</p>
-            </div>
-            <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-              <p class="text-2xl font-bold font-display text-primary">
-                <EffectsCountUp :target="15" :duration="2000" suffix="+" />
-              </p>
-              <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Projects</p>
-            </div>
-            <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-              <p class="text-2xl font-bold font-display text-primary">
-                <EffectsCountUp :target="certifications.length" :duration="2000" />
-              </p>
-              <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Certs</p>
-            </div>
+          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
+            <p class="text-2xl font-bold font-display text-primary">
+              <EffectsCountUp :target="certifications.length" :duration="2000" />
+            </p>
+            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Certs</p>
           </div>
         </div>
       </div>
 
       <!-- Experience timeline -->
-      <div v-if="internships.length" class="mt-16">
+      <div v-if="internships.length" class="mt-14">
         <h3 class="section-eyebrow mb-8">Professional Experience</h3>
         <div class="space-y-6">
           <div

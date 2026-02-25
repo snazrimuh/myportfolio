@@ -1,4 +1,4 @@
-import { PrismaClient, ExperienceType } from '@prisma/client';
+import { PrismaClient, ExperienceType, ProjectCategory } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -97,6 +97,7 @@ async function main() {
       description:
         'A modern correspondence system for AirNav Indonesia built with NestJS, improving performance, scalability, and maintainability for daily internal and external official communications.',
       tech: ['TypeScript', 'NestJS', 'MySQL', 'REST API'],
+      category: ProjectCategory.BACKEND,
       github: 'https://github.com/snazrimuh/airnav-korespondensi-be',
       image: '/new-arsipku.png',
       order: 1,
@@ -106,6 +107,7 @@ async function main() {
       description:
         'Digital platform for AirNav Indonesia enabling paperless workflows, certificate distribution, and real-time admin dashboards for comprehensive event tracking.',
       tech: ['PHP', 'Laravel', 'MySQL', 'CI/CD'],
+      category: ProjectCategory.BACKEND,
       github: 'https://github.com/snazrimuh/airnav-navevent-be',
       image: '/nav-event.png',
       order: 2,
@@ -115,6 +117,7 @@ async function main() {
       description:
         'Fullstack web application for Kab. Sukohajo providing online services to citizens with improved accessibility and service delivery capabilities.',
       tech: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'ReactJS'],
+      category: ProjectCategory.FULLSTACK,
       github: 'https://github.com/snazrimuh',
       image: '/online-service.png',
       order: 3,
@@ -124,17 +127,19 @@ async function main() {
       description:
         'Digital election platform for Universitas Sebelas Maret enabling secure voting with real-time result management and authentication systems.',
       tech: ['Laravel', 'MySQL', 'PHP', 'HTML/CSS'],
+      category: ProjectCategory.FULLSTACK,
       github: 'https://github.com/snazrimuh',
       image: '/election-system.png',
       order: 4,
     },
     {
-      title: 'Stunting Monitoring System',
+      title: 'Document Management Platform',
       description:
-        'Web-based monitoring platform for tracking stunting cases with data visualization and reporting capabilities for healthcare professionals.',
-      tech: ['Node.js', 'Express', 'MongoDB', 'ReactJS'],
+        'Web-based document management system for organized storage, retrieval and collaboration with role-based access control and audit trails.',
+      tech: ['Laravel', 'MySQL', 'PHP', 'Tailwind CSS'],
+      category: ProjectCategory.FULLSTACK,
       github: 'https://github.com/snazrimuh',
-      image: '/stunting-monitoring.png',
+      image: '/document-management.png',
       order: 5,
     },
     {
@@ -142,6 +147,7 @@ async function main() {
       description:
         'Mobile application with accessibility focus achieving 100% WCAG 2.1 compliance. Improved performance 30% using Kotlin Coroutines with Clean Architecture.',
       tech: ['Kotlin', 'Jetpack Compose', 'Retrofit', 'MVVM'],
+      category: ProjectCategory.MOBILE,
       github: 'https://github.com/snazrimuh',
       image: '/bca-revamp.png',
       order: 6,
@@ -151,6 +157,7 @@ async function main() {
       description:
         'Machine learning project optimizing public transportation routes using YOLOv5 for object detection and predictive models for route efficiency.',
       tech: ['Python', 'YOLOv5', 'TensorFlow', 'Machine Learning'],
+      category: ProjectCategory.ML_DL,
       github: 'https://github.com/snazrimuh',
       image: '/transjogja.png',
       order: 7,
@@ -160,6 +167,7 @@ async function main() {
       description:
         'AI-powered platform using machine learning to suggest suitable career paths based on user skills and preferences with multiple learning options.',
       tech: ['Python', 'Machine Learning', 'TensorFlow', 'Pandas'],
+      category: ProjectCategory.ML_DL,
       github: 'https://github.com/snazrimuh',
       image: '/career-recommendation.png',
       order: 8,
@@ -218,7 +226,7 @@ async function main() {
       endDate: new Date('2024-09-30'),
       description:
         'Built BCA Mobile app with 100% WCAG 2.1 compliance. Improved 30% using Kotlin with 30+ APIs.',
-      type: ExperienceType.EDUCATION,
+      type: ExperienceType.WORK,
       order: 4,
     },
     {
@@ -229,7 +237,7 @@ async function main() {
       endDate: new Date('2024-01-31'),
       description:
         'Completed 500+ hours of ML courses. Led team developing Recommendation App scoring 92/100.',
-      type: ExperienceType.EDUCATION,
+      type: ExperienceType.WORK,
       order: 5,
     },
     {
@@ -250,7 +258,7 @@ async function main() {
       startDate: new Date('2021-08-01'),
       endDate: new Date('2025-07-31'),
       description:
-        'Degree in Computer Science. Thesis: YOLOv5 Traffic Detection. GPA: 3.75/4.00 (cum laude)',
+        'Degree in Computer Science. Thesis:  Traf ic Object Detection Using YOLOV8s with Spatial-to-Depth Convolution and Small Detection Head. GPA: 3.75/4.00 (cumlaude)',
       type: ExperienceType.EDUCATION,
       order: 7,
     },

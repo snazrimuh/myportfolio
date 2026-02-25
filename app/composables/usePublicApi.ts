@@ -13,11 +13,14 @@ interface ApiSkillCategory {
   skills: ApiSkill[]
 }
 
+type ProjectCategory = 'BACKEND' | 'FULLSTACK' | 'MOBILE' | 'ML_DL'
+
 interface ApiProject {
   id: number
   title: string
   description: string
   tech: string[]
+  category: ProjectCategory
   github: string | null
   liveUrl: string | null
   image: string | null
@@ -37,7 +40,7 @@ interface ApiExperience {
   order: number
 }
 
-export type { ApiSkillCategory, ApiSkill, ApiProject, ApiExperience }
+export type { ApiSkillCategory, ApiSkill, ApiProject, ApiExperience, ProjectCategory }
 
 export function usePublicApi() {
   const config = useRuntimeConfig()
@@ -46,8 +49,10 @@ export function usePublicApi() {
   const fetchSkills = () =>
     $fetch<ApiSkillCategory[]>(`${API_BASE}/skills`)
 
-  const fetchProjects = () =>
-    $fetch<ApiProject[]>(`${API_BASE}/projects`)
+  const fetchProjects = (category?: ProjectCategory) => {
+    const query = category ? `?category=${category}` : ''
+    return $fetch<ApiProject[]>(`${API_BASE}/projects${query}`)
+  }
 
   const fetchExperiences = (type?: string) => {
     const query = type ? `?type=${type}` : ''

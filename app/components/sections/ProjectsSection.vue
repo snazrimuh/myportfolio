@@ -1,70 +1,57 @@
-<script setup lang="ts">
-import { Github, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-vue-next'
+﻿<script setup lang="ts">
+import { Github, ExternalLink } from 'lucide-vue-next'
 import { Badge } from '~/components/ui/badge'
-import type { ApiProject } from '~/composables/usePublicApi'
+import type { ApiProject, ProjectCategory } from '~/composables/usePublicApi'
 
 const { fetchProjects } = usePublicApi()
-const projects = ref<ApiProject[]>([])
+const allProjects = ref<ApiProject[]>([])
+const activeFilter = ref<ProjectCategory | 'ALL'>('ALL')
+const loading = ref(false)
 
 onMounted(async () => {
+  loading.value = true
   try {
-    projects.value = await fetchProjects()
+    const data = await fetchProjects()
+    allProjects.value = data.map(p => ({
+      ...p,
+      tech: Array.isArray(p.tech)
+        ? p.tech
+        : (typeof p.tech === 'string' ? JSON.parse(p.tech) : []),
+    }))
   } catch (e) {
     console.error('Failed to fetch projects:', e)
+  } finally {
+    loading.value = false
   }
 })
 
-// Carousel state
-const currentIndex = ref(0)
-const perPage = ref(2)
-const carouselTrack = ref<HTMLElement | null>(null)
-const isDragging = ref(false)
-const dragStartX = ref(0)
-const dragDelta = ref(0)
+const filtered = computed(() =>
+  activeFilter.value === 'ALL'
+    ? allProjects.value
+    : allProjects.value.filter(p => p.category === activeFilter.value)
+)
 
-const totalPages = computed(() => Math.ceil(projects.value.length / perPage.value))
-const currentPage = computed(() => Math.floor(currentIndex.value / perPage.value))
+const filters: { label: string; value: ProjectCategory | 'ALL' }[] = [
+  { label: 'All',       value: 'ALL' },
+  { label: 'Backend',   value: 'BACKEND' },
+  { label: 'Fullstack', value: 'FULLSTACK' },
+  { label: 'Mobile',    value: 'MOBILE' },
+  { label: 'ML / DL',   value: 'ML_DL' },
+]
 
-function goToPage(page: number) {
-  currentIndex.value = Math.max(0, Math.min(page * perPage.value, projects.value.length - perPage.value))
+const categoryLabel: Record<ProjectCategory, string> = {
+  BACKEND:   'Backend',
+  FULLSTACK: 'Fullstack',
+  MOBILE:    'Mobile',
+  ML_DL:     'ML / DL',
 }
 
-function prev() { goToPage(Math.max(0, currentPage.value - 1)) }
-function next() { goToPage(Math.min(totalPages.value - 1, currentPage.value + 1)) }
-
-function onDragStart(e: MouseEvent | TouchEvent) {
-  isDragging.value = true
-  dragDelta.value = 0
-  dragStartX.value = 'touches' in e ? (e.touches[0]?.clientX ?? 0) : e.clientX
+const categoryColor: Record<ProjectCategory, string> = {
+  BACKEND:   'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  FULLSTACK: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+  MOBILE:    'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  ML_DL:     'bg-amber-500/10 text-amber-600 dark:text-amber-400',
 }
-function onDragMove(e: MouseEvent | TouchEvent) {
-  if (!isDragging.value) return
-  const x = 'touches' in e ? (e.touches[0]?.clientX ?? dragStartX.value) : e.clientX
-  dragDelta.value = x - dragStartX.value
-}
-function onDragEnd() {
-  if (!isDragging.value) return
-  isDragging.value = false
-  if (dragDelta.value < -60) next()
-  else if (dragDelta.value > 60) prev()
-  dragDelta.value = 0
-}
-
-onMounted(() => {
-  const update = () => { perPage.value = window.innerWidth < 768 ? 1 : 2 }
-  update()
-  window.addEventListener('resize', update)
-  onUnmounted(() => window.removeEventListener('resize', update))
-})
-
-const translateX = computed(() => {
-  const base = -(currentIndex.value / perPage.value) * 100
-  if (isDragging.value && carouselTrack.value) {
-    const pct = (dragDelta.value / carouselTrack.value.offsetWidth) * 100
-    return base + pct
-  }
-  return base
-})
 </script>
 
 <template>
@@ -76,145 +63,147 @@ const translateX = computed(() => {
         <h2>Projects</h2>
       </div>
 
-      <p class="text-center text-muted-foreground text-base leading-relaxed max-w-xl mx-auto mb-14">
-        A selection of things I've built — from APIs to web apps and IoT systems.
+      <p class="text-center text-muted-foreground text-base leading-relaxed max-w-xl mx-auto mb-10">
+        A selection of things I've built  from APIs to web apps and mobile applications.
       </p>
 
-      <!-- Carousel wrapper -->
-      <div class="relative group/carousel">
-
-        <!-- Prev -->
+      <!-- Filter tabs -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
         <button
-          v-if="projects.length > perPage"
-          :disabled="currentPage === 0"
-          class="carousel-nav carousel-nav-left"
-          aria-label="Previous"
-          @click="prev"
+          v-for="f in filters"
+          :key="f.value"
+          :class="[
+            'px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 border',
+            activeFilter === f.value
+              ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+              : 'bg-background text-foreground border-border hover:border-primary/50 hover:text-primary',
+          ]"
+          @click="activeFilter = f.value"
         >
-          <ChevronLeft class="h-4 w-4" />
+          {{ f.label }}
         </button>
+      </div>
 
-        <!-- Track -->
+      <!-- Projects grid -->
+      <Transition name="fade" mode="out-in">
         <div
-          ref="carouselTrack"
-          class="overflow-hidden select-none"
-          @mousedown="onDragStart"
-          @mousemove="onDragMove"
-          @mouseup="onDragEnd"
-          @mouseleave="onDragEnd"
-          @touchstart.passive="onDragStart"
-          @touchmove.passive="onDragMove"
-          @touchend="onDragEnd"
+          :key="activeFilter"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
-          <div
-            class="flex"
-            :class="isDragging ? '' : 'transition-transform duration-500 ease-in-out'"
-            :style="{ transform: `translateX(${translateX}%)` }"
-          >
+          <!-- Loading skeleton -->
+          <template v-if="loading">
             <div
-              v-for="project in projects"
-              :key="project.id"
-              :style="{ width: `${100 / perPage}%`, flexShrink: 0 }"
-              class="px-2.5"
+              v-for="n in 6"
+              :key="'skel-' + n"
+              class="minimal-card rounded-2xl overflow-hidden animate-pulse"
             >
-              <!-- Card -->
-              <div class="minimal-card rounded-2xl overflow-hidden group/card h-full">
+              <div class="aspect-video bg-secondary" />
+              <div class="p-5 space-y-3">
+                <div class="h-3 bg-secondary rounded w-3/4" />
+                <div class="h-2 bg-secondary rounded w-full" />
+                <div class="h-2 bg-secondary rounded w-5/6" />
+              </div>
+            </div>
+          </template>
 
-                <!-- Image -->
-                <div class="aspect-video bg-secondary flex items-center justify-center overflow-hidden relative">
-                  <img
-                    v-if="project.image"
-                    :src="project.image"
-                    :alt="project.title"
-                    class="w-full h-full object-cover opacity-90 group-hover/card:opacity-100 transition-opacity duration-300"
-                    draggable="false"
-                  />
-                  <span
-                    v-else
-                    class="text-7xl font-bold font-display text-primary/10 group-hover/card:text-primary/20 transition-colors duration-300 select-none"
+          <template v-if="!loading">
+            <div
+              v-for="project in filtered"
+              :key="project.id"
+              class="minimal-card rounded-2xl overflow-hidden group/card flex flex-col"
+            >
+            <!-- Image -->
+            <div class="aspect-video bg-secondary flex items-center justify-center overflow-hidden relative flex-shrink-0">
+              <img
+                v-if="project.image"
+                :src="project.image"
+                :alt="project.title"
+                class="w-full h-full object-cover opacity-90 group-hover/card:opacity-100 transition-opacity duration-300"
+              />
+              <span
+                v-else
+                class="text-7xl font-bold font-display text-primary/10 group-hover/card:text-primary/20 transition-colors duration-300 select-none"
+              >
+                {{ project.title.charAt(0) }}
+              </span>
+
+              <!-- Category badge overlay -->
+              <span
+                :class="['absolute top-2.5 left-2.5 text-[10px] font-semibold px-2 py-0.5 rounded-full', categoryColor[project.category]]"
+              >
+                {{ categoryLabel[project.category] }}
+              </span>
+            </div>
+
+            <!-- Info -->
+            <div class="p-5 space-y-3 flex flex-col flex-1">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="text-sm font-semibold text-foreground font-display leading-snug">{{ project.title }}</h3>
+                <div class="flex items-center gap-1 shrink-0">
+                  <a
+                    v-if="project.github"
+                    :href="project.github"
+                    target="_blank"
+                    rel="noopener"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
                   >
-                    {{ project.title.charAt(0) }}
-                  </span>
+                    <Github class="h-3.5 w-3.5" />
+                  </a>
+                  <a
+                    v-if="project.liveUrl"
+                    :href="project.liveUrl"
+                    target="_blank"
+                    rel="noopener"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
+                  >
+                    <ExternalLink class="h-3.5 w-3.5" />
+                  </a>
                 </div>
+              </div>
 
-                <!-- Info -->
-                <div class="p-5 space-y-3">
-                  <div class="flex items-start justify-between gap-2">
-                    <h3 class="text-sm font-semibold text-foreground font-display leading-snug">{{ project.title }}</h3>
-                    <div class="flex items-center gap-1 shrink-0">
-                      <a
-                        v-if="project.github"
-                        :href="project.github"
-                        target="_blank"
-                        rel="noopener"
-                        class="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
-                      >
-                        <Github class="h-3.5 w-3.5" />
-                      </a>
-                      <a
-                        v-if="project.liveUrl"
-                        :href="project.liveUrl"
-                        target="_blank"
-                        rel="noopener"
-                        class="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all"
-                      >
-                        <ExternalLink class="h-3.5 w-3.5" />
-                      </a>
-                    </div>
-                  </div>
+              <p class="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">{{ project.description }}</p>
 
-                  <p class="text-xs text-muted-foreground leading-relaxed line-clamp-2">{{ project.description }}</p>
-
-                  <div class="flex flex-wrap gap-1">
-                    <Badge
-                      v-for="tech in project.tech"
-                      :key="tech"
-                      variant="secondary"
-                      class="text-[10px] px-2 py-0.5 bg-primary/8 text-primary border-0 font-normal hover:bg-primary/15 transition-colors cursor-default"
-                    >
-                      {{ tech }}
-                    </Badge>
-                  </div>
-                </div>
+              <div class="flex flex-wrap gap-1 mt-auto">
+                <Badge
+                  v-for="tech in project.tech"
+                  :key="tech"
+                  variant="secondary"
+                  class="text-[10px] px-2 py-0.5 bg-primary/8 text-primary border-0 font-normal hover:bg-primary/15 transition-colors cursor-default"
+                >
+                  {{ tech }}
+                </Badge>
               </div>
             </div>
           </div>
+          </template>
+
+          <!-- Empty state -->
+          <div
+            v-if="!loading && filtered.length === 0"
+            class="col-span-full text-center py-16 text-muted-foreground text-sm"
+          >
+            No projects in this category yet.
+          </div>
         </div>
+      </Transition>
 
-        <!-- Next -->
-        <button
-          v-if="projects.length > perPage"
-          :disabled="currentPage >= totalPages - 1"
-          class="carousel-nav carousel-nav-right"
-          aria-label="Next"
-          @click="next"
-        >
-          <ChevronRight class="h-4 w-4" />
-        </button>
-      </div>
-
-      <!-- Dots -->
-      <div v-if="totalPages > 1" class="flex items-center justify-center gap-1.5 mt-8">
-        <button
-          v-for="page in totalPages"
-          :key="page"
-          :aria-label="`Go to page ${page}`"
-          :class="[
-            'rounded-full transition-all duration-300',
-            currentPage === page - 1
-              ? 'w-6 h-1.5 bg-primary'
-              : 'w-1.5 h-1.5 bg-border hover:bg-muted-foreground',
-          ]"
-          @click="goToPage(page - 1)"
-        />
-      </div>
-
-      <p v-if="projects.length > 0" class="text-center text-xs text-muted-foreground mt-3">
-        {{ currentPage * perPage + 1 }}–{{ Math.min((currentPage + 1) * perPage, projects.length) }}
-        of {{ projects.length }} projects
+      <!-- Count -->
+      <p v-if="!loading && allProjects.length > 0" class="text-center text-xs text-muted-foreground mt-8">
+        Showing {{ filtered.length }} of {{ allProjects.length }} projects
       </p>
 
     </div>
   </section>
 </template>
 
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(4px);
+}
+</style>

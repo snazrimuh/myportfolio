@@ -8,6 +8,7 @@ const activeSection = ref('hero')
 const navItems = [
   { id: 'hero',     label: 'Home',     icon: Home       },
   { id: 'about',    label: 'About',    icon: User       },
+  { id: 'resume',   label: 'Resume',   icon: FileText   },
   { id: 'projects', label: 'Projects', icon: FolderOpen },
   { id: 'skills',   label: 'Skills',   icon: Layers     },
   { id: 'contact',  label: 'Contact',  icon: Mail       },
