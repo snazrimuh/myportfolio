@@ -44,7 +44,10 @@ export type { ApiSkillCategory, ApiSkill, ApiProject, ApiExperience, ProjectCate
 
 export function usePublicApi() {
   const config = useRuntimeConfig()
-  const API_BASE = config.public.apiBase as string
+  // On server (SSR/Docker): use internal network URL if set, otherwise fall back to public
+  const API_BASE = (import.meta.server && config.apiBaseInternal)
+    ? (config.apiBaseInternal as string)
+    : (config.public.apiBase as string)
 
   const fetchSkills = () =>
     $fetch<ApiSkillCategory[]>(`${API_BASE}/skills`)

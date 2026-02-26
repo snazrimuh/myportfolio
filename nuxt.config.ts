@@ -5,8 +5,16 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  nitro: {
+    preset: 'vercel',
+  },
+
+
   runtimeConfig: {
+    // Server-side only: used for SSR fetch inside Docker network
+    apiBaseInternal: process.env.NUXT_API_BASE_INTERNAL || '',
     public: {
+      // Client-side (browser) visible: must point to publicly accessible URL
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001/api',
     },
   },

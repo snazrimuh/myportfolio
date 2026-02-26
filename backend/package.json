@@ -1,7 +1,7 @@
 {
   "name": "portfolio-backend",
   "version": "1.0.0",
-  "description": "Portfolio backend API with NestJS + Prisma + MySQL",
+  "description": "Portfolio backend API with NestJS + Prisma + PostgreSQL",
   "private": true,
   "scripts": {
     "build": "nest build",
@@ -14,7 +14,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "vercel-build": "prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",

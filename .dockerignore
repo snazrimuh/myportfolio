@@ -1,0 +1,12 @@
+node_modules
+.nuxt
+.output
+.git
+*.log
+.env
+.env.*
+backend
+nginx
+docker-compose.yml
+Dockerfile
+README.md

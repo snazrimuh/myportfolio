@@ -1,19 +1,18 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: portfolio_mysql
+  db:
+    image: postgres:16-alpine
+    container_name: portfolio_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: portfolio
-      MYSQL_USER: portfolio_user
-      MYSQL_PASSWORD: portfolio_pass
+      POSTGRES_DB: portfolio
+      POSTGRES_USER: portfolio_user
+      POSTGRES_PASSWORD: portfolio_pass
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "portfolio_user", "-pportfolio_pass"]
+      test: ["CMD-SHELL", "pg_isready -U portfolio_user -d portfolio"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -27,17 +26,18 @@ services:
     ports:
       - "3001:3001"
     environment:
-      DATABASE_URL: mysql://portfolio_user:portfolio_pass@mysql:3306/portfolio
+      DATABASE_URL: postgresql://portfolio_user:portfolio_pass@db:5432/portfolio
+      DIRECT_URL: postgresql://portfolio_user:portfolio_pass@db:5432/portfolio
       JWT_SECRET: portfolio-admin-jwt-secret-key-2026
       JWT_EXPIRES_IN: 1d
       ADMIN_EMAIL: admin@portfolio.com
       ADMIN_PASSWORD: admin123
       PORT: 3001
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
     command: >
-      sh -c "npx prisma migrate deploy && node dist/prisma/seed.js ; node dist/main.js"
+      sh -c "npx prisma db push && node dist/prisma/seed.js && node dist/main.js"
 
 volumes:
-  mysql_data:
+  pg_data:
