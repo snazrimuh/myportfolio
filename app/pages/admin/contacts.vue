@@ -2,7 +2,6 @@
 import { Trash2, MailOpen, Mail, ArrowLeft } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Badge } from '~/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 
 definePageMeta({
   layout: 'admin',
@@ -68,7 +67,7 @@ onMounted(fetchMessages)
       </NuxtLink>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <h1 class="text-2xl font-bold font-retro text-primary retro-glow">Messages</h1>
+          <h1 class="text-2xl font-bold font-display text-foreground">Messages</h1>
           <Badge v-if="unreadCount" variant="default" class="text-xs">
             {{ unreadCount }} unread
           </Badge>
@@ -78,9 +77,8 @@ onMounted(fetchMessages)
 
     <div class="grid gap-4 lg:grid-cols-3">
       <!-- Messages list -->
-      <Card class="border-primary/20 lg:col-span-1">
-        <CardContent class="p-0">
-          <div class="divide-y divide-border/50 max-h-[70vh] overflow-y-auto">
+      <div class="minimal-card rounded-2xl overflow-hidden lg:col-span-1">
+        <div class="divide-y divide-border/50 max-h-[70vh] overflow-y-auto">
             <div
               v-for="msg in messages"
               :key="msg.id"
@@ -118,19 +116,18 @@ onMounted(fetchMessages)
               No messages yet
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </div>
 
       <!-- Message detail -->
-      <Card class="border-primary/20 lg:col-span-2">
+      <div class="minimal-card rounded-2xl lg:col-span-2">
         <template v-if="selectedMessage">
-          <CardHeader>
-            <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between p-5 border-b border-border/50">
+            <div class="flex items-center justify-between w-full">
               <div>
-                <CardTitle>{{ selectedMessage.name }}</CardTitle>
-                <CardDescription>
+                <p class="font-semibold font-display text-foreground">{{ selectedMessage.name }}</p>
+                <p class="text-sm text-muted-foreground">
                   {{ selectedMessage.email }} · {{ formatDate(selectedMessage.createdAt) }}
-                </CardDescription>
+                </p>
               </div>
               <Button
                 variant="ghost"
@@ -141,19 +138,19 @@ onMounted(fetchMessages)
                 <Trash2 class="h-4 w-4" />
               </Button>
             </div>
-          </CardHeader>
-          <CardContent>
+          </div>
+          <div class="p-5">
             <p class="whitespace-pre-wrap text-foreground leading-relaxed">
               {{ selectedMessage.message }}
             </p>
-          </CardContent>
+          </div>
         </template>
         <template v-else>
-          <CardContent class="flex items-center justify-center h-64">
+          <div class="flex items-center justify-center h-64">
             <p class="text-muted-foreground">Select a message to read</p>
-          </CardContent>
+          </div>
         </template>
-      </Card>
+      </div>
     </div>
   </div>
 </template>

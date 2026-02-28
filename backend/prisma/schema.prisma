@@ -93,6 +93,37 @@ enum ExperienceType {
   CERTIFICATION
 }
 
+// ─── Site Profile (singleton) ─────────────────────────────
+model Profile {
+  id                 Int      @id @default(autoincrement())
+  nameFirst          String   @default("") // e.g. "Syah Rizan"
+  nameSecond         String   @default("") // e.g. "Nazri Muhammad" (shown as gradient)
+  roles              Json     @default("[]") // string[] — typewriter roles
+  tagline            String   @default("") // short bio under typewriter
+  bio                String   @default("") // full bio in About section
+  location           String   @default("")
+  email              String   @default("")
+  degree             String   @default("")
+  freelanceAvailable Boolean  @default(true)
+  openToWork         Boolean  @default(true)
+  resumeUrl          String?
+  githubUrl          String?
+  linkedinUrl        String?
+  twitterUrl         String?
+  instagramUrl       String?
+  siteTitle          String   @default("")
+  siteDescription    String   @default("")
+  aboutCards         Json     @default("[]") // { title: string; description: string }[]
+  skillsTagline      String   @default("")
+  resumeTagline      String   @default("")
+  projectsTagline    String   @default("")
+  contactIntro       String   @default("")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@map("profiles")
+}
+
 // ─── Contact Messages ─────────────────────────────────────
 model ContactMessage {
   id        Int      @id @default(autoincrement())

@@ -1,113 +1,150 @@
 <script setup lang="ts">
 import {
   LayoutDashboard,
-  FolderKanban,
-  Cpu,
+  FolderOpen,
+  Layers,
   Briefcase,
   Mail,
   LogOut,
   Home,
-  Menu,
-  X,
+  UserCircle,
+  Sun,
+  Moon,
 } from 'lucide-vue-next'
-import { Button } from '~/components/ui/button'
 
 const auth = useAuth()
 const route = useRoute()
-const mobileMenuOpen = ref(false)
+const { isDark, toggleTheme, initTheme } = useTheme()
 
 const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, to: '/admin' },
-  { label: 'Projects', icon: FolderKanban, to: '/admin/projects' },
-  { label: 'Skills', icon: Cpu, to: '/admin/skills' },
-  { label: 'Experience', icon: Briefcase, to: '/admin/experiences' },
-  { label: 'Messages', icon: Mail, to: '/admin/contacts' },
+  { label: 'Profile',   icon: UserCircle,      to: '/admin/profile' },
+  { label: 'Projects',  icon: FolderOpen,      to: '/admin/projects' },
+  { label: 'Skills',    icon: Layers,          to: '/admin/skills' },
+  { label: 'Experience',icon: Briefcase,       to: '/admin/experiences' },
+  { label: 'Messages',  icon: Mail,            to: '/admin/contacts' },
 ]
 
 function isActive(path: string) {
   if (path === '/admin') return route.path === '/admin'
   return route.path.startsWith(path)
 }
+
+onMounted(() => initTheme())
 </script>
 
 <template>
-  <!-- Outer frame: transparent so fixed gradient shows through, including in margins -->
-  <div class="min-h-screen p-3 sm:p-4 lg:p-6">
-    <!-- Same gradient background as the portfolio page -->
+  <div class="min-h-screen bg-background text-foreground antialiased">
     <EffectsGradientBackground />
+    <ScrollProgress />
 
-    <div class="relative z-10 flex min-h-[calc(100vh-1.5rem)] sm:min-h-[calc(100vh-2rem)] lg:min-h-[calc(100vh-3rem)] flex-col rounded-xl border border-primary/20 bg-background/30 overflow-hidden">
-    <!-- Top bar -->
-    <header class="sticky top-0 z-40 border-b border-primary/20 bg-background/40 backdrop-blur-md rounded-t-xl">
-      <div class="flex h-14 items-center px-5 gap-4">
-        <Button
-          variant="ghost"
-          size="sm"
-          class="lg:hidden"
-          @click="mobileMenuOpen = !mobileMenuOpen"
-        >
-          <Menu v-if="!mobileMenuOpen" class="h-5 w-5" />
-          <X v-else class="h-5 w-5" />
-        </Button>
-
-        <NuxtLink to="/admin" class="font-retro text-sm text-primary retro-glow">
-          Admin Panel
-        </NuxtLink>
-
-        <div class="ml-auto flex items-center gap-2">
-          <Button as="a" href="/" variant="ghost" size="sm">
-            <Home class="h-4 w-4 mr-1" />
-            Site
-          </Button>
-          <Button variant="ghost" size="sm" @click="auth.logout()">
-            <LogOut class="h-4 w-4 mr-1" />
-            Logout
-          </Button>
-        </div>
-      </div>
-    </header>
-
-    <div class="flex flex-1 overflow-hidden">
-      <!-- Sidebar -->
-      <aside
-        :class="[
-          'fixed inset-y-0 left-0 z-30 w-60 border-r border-primary/20 bg-background/30 backdrop-blur-sm pt-14 transition-transform duration-200 lg:translate-x-0 lg:static lg:z-auto',
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
-        ]"
+    <!-- ── Desktop pill nav (left, fixed, centered) ── -->
+    <nav
+      class="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-start gap-2"
+      aria-label="Admin navigation"
+    >
+      <NuxtLink
+        v-for="item in navItems"
+        :key="item.to"
+        :to="item.to"
+        :aria-current="isActive(item.to) ? 'page' : undefined"
+        class="group flex items-center gap-3 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-primary"
       >
-        <nav class="flex flex-col gap-1 p-3">
-          <NuxtLink
-            v-for="item in navItems"
-            :key="item.to"
-            :to="item.to"
-            :class="[
-              'flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
-              isActive(item.to)
-                ? 'bg-primary/15 text-primary font-medium'
-                : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-            ]"
-            @click="mobileMenuOpen = false"
-          >
-            <component :is="item.icon" class="h-4 w-4" />
-            {{ item.label }}
-          </NuxtLink>
-        </nav>
-      </aside>
-
-      <!-- Overlay for mobile -->
-      <div
-        v-if="mobileMenuOpen"
-        class="fixed inset-0 z-20 bg-black/50 lg:hidden"
-        @click="mobileMenuOpen = false"
-      />
-
-      <!-- Main content -->
-      <main class="flex-1 overflow-y-auto p-6 sm:p-8 lg:p-10">
-        <div class="mx-auto max-w-6xl">
-          <slot />
+        <!-- Active pill -->
+        <div
+          v-if="isActive(item.to)"
+          class="flex items-center gap-3 rounded-full px-5 py-3 bg-primary text-white shadow-lg shadow-primary/25 text-base font-semibold font-display"
+        >
+          <component :is="item.icon" class="h-5 w-5 shrink-0" />
+          <span>{{ item.label }}</span>
         </div>
-      </main>
-    </div>
-    </div>
+        <!-- Inactive circle -->
+        <div
+          v-else
+          class="flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground group-hover:text-white group-hover:bg-primary group-hover:border-primary transition-all duration-200"
+        >
+          <component :is="item.icon" class="h-5 w-5 shrink-0" />
+          <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ item.label }}</span>
+        </div>
+      </NuxtLink>
+
+      <!-- Divider -->
+      <div class="w-px h-4 bg-border self-center opacity-50" />
+
+      <!-- Theme toggle -->
+      <button
+        class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-white hover:bg-primary hover:border-primary transition-all duration-200"
+        :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+        @click="toggleTheme"
+      >
+        <Sun v-if="isDark" class="h-5 w-5 shrink-0" />
+        <Moon v-else class="h-5 w-5 shrink-0" />
+        <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ isDark ? 'Light' : 'Dark' }}</span>
+      </button>
+
+      <!-- Back to site -->
+      <NuxtLink
+        to="/"
+        class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-white hover:bg-primary hover:border-primary transition-all duration-200"
+        aria-label="Back to site"
+      >
+        <Home class="h-5 w-5 shrink-0" />
+        <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">Back to site</span>
+      </NuxtLink>
+
+      <!-- Logout -->
+      <button
+        class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-white hover:bg-destructive hover:border-destructive transition-all duration-200"
+        aria-label="Logout"
+        @click="auth.logout()"
+      >
+        <LogOut class="h-5 w-5 shrink-0" />
+        <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">Logout</span>
+      </button>
+    </nav>
+
+    <!-- ── Main content ── -->
+    <main class="relative z-10 lg:pl-24">
+      <div class="container mx-auto px-8 max-w-5xl py-16 sm:py-20 pb-32 lg:pb-20">
+        <slot />
+      </div>
+    </main>
+
+    <!-- ── Mobile bottom bar ── -->
+    <nav
+      class="fixed bottom-0 left-0 right-0 z-50 lg:hidden flex items-center justify-around bg-sidebar/90 backdrop-blur-lg border-t border-sidebar-border px-2 py-2"
+      aria-label="Admin navigation"
+    >
+      <NuxtLink
+        v-for="item in navItems"
+        :key="item.to"
+        :to="item.to"
+        :aria-current="isActive(item.to) ? 'page' : undefined"
+        class="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl transition-all duration-200"
+        :class="isActive(item.to) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'"
+      >
+        <component :is="item.icon" class="h-5 w-5" />
+        <span class="text-[10px] font-medium">{{ item.label }}</span>
+      </NuxtLink>
+
+      <!-- Theme toggle mobile -->
+      <button
+        class="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl text-muted-foreground hover:text-foreground transition-all duration-200"
+        @click="toggleTheme"
+      >
+        <Sun v-if="isDark" class="h-5 w-5" />
+        <Moon v-else class="h-5 w-5" />
+        <span class="text-[10px] font-medium">Theme</span>
+      </button>
+
+      <!-- Logout mobile -->
+      <button
+        class="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl text-muted-foreground hover:text-destructive transition-all duration-200"
+        @click="auth.logout()"
+      >
+        <LogOut class="h-5 w-5" />
+        <span class="text-[10px] font-medium">Logout</span>
+      </button>
+    </nav>
   </div>
 </template>

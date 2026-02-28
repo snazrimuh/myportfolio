@@ -4,6 +4,7 @@ import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Textarea } from '~/components/ui/textarea'
 
+const { data: profile } = useProfile()
 const { sendContactMessage } = usePublicApi()
 
 const form = reactive({ name: '', email: '', message: '' })
@@ -30,11 +31,15 @@ async function handleSubmit() {
   }
 }
 
-const contactLinks = [
-  { icon: Mail,     label: 'snazrimuh@gmail.com',          href: 'mailto:snazrimuh@gmail.com' },
-  { icon: Linkedin, label: 'linkedin.com/in/syahrizannazri', href: 'https://linkedin.com/in/syahrizannazri/' },
-  { icon: Github,   label: 'github.com/snazrimuh',          href: 'https://github.com/snazrimuh' },
-]
+const contactLinks = computed(() => {
+  const p = profile.value
+  if (!p) return []
+  return [
+    p.email       && { icon: Mail,     label: p.email,                                  href: `mailto:${p.email}` },
+    p.linkedinUrl && { icon: Linkedin, label: p.linkedinUrl.replace('https://', ''),    href: p.linkedinUrl },
+    p.githubUrl   && { icon: Github,   label: p.githubUrl.replace('https://', ''),      href: p.githubUrl },
+  ].filter(Boolean) as { icon: any; label: string; href: string }[]
+})
 </script>
 
 <template>
@@ -47,7 +52,7 @@ const contactLinks = [
       </div>
 
       <p class="text-center text-muted-foreground text-base leading-relaxed max-w-xl mx-auto mb-14">
-        I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out!
+        {{ profile?.contactIntro }}
       </p>
 
       <div class="grid gap-12 lg:grid-cols-[1fr_1.3fr] items-start">
@@ -58,7 +63,7 @@ const contactLinks = [
             <MapPin class="h-4.5 w-4.5 text-primary mt-0.5 shrink-0" />
             <div>
               <p class="text-xs text-muted-foreground uppercase tracking-wide mb-0.5">Location</p>
-              <p class="text-sm font-medium text-foreground">Tangerang, Indonesia</p>
+              <p class="text-sm font-medium text-foreground">{{ profile?.location }}</p>
             </div>
           </div>
 

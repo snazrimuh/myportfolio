@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ApiExperience } from '~/composables/usePublicApi'
 
+const { data: profile } = useProfile()
 const { fetchExperiences } = usePublicApi()
 
 // All items: education first (order asc), then work (order asc)
@@ -50,7 +51,7 @@ function showSectionHeader(index: number) {
       </div>
 
       <p class="text-center text-muted-foreground text-base leading-relaxed max-w-2xl mx-auto mb-16">
-        My professional journey — from formal education to hands-on industry experience.
+        {{ profile?.resumeTagline || 'My professional journey — from formal education to hands-on industry experience.' }}
       </p>
 
       <!-- Flowing 2-column layout using CSS columns -->

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+const { data: profile } = await useProfile()
+
 useHead({
-  title: 'Portfolio — Syah Rizan Nazri Muhammad',
+  title: profile.value?.siteTitle || 'Portfolio',
   meta: [
-    { name: 'description', content: 'Software Engineer with experience in backend development, API design, database management, and fullstack engineering for impactful products.' },
+    { name: 'description', content: profile.value?.siteDescription || '' },
   ],
 })
 </script>

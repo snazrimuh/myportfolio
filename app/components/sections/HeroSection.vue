@@ -1,22 +1,38 @@
 <script setup lang="ts">
-import { Github, Linkedin, Mail, Twitter, Instagram, Facebook, ArrowDown } from 'lucide-vue-next'
+import { Github, Linkedin, Mail, Twitter, Instagram, ArrowDown } from 'lucide-vue-next'
 
-const roles = ['Backend Developer', 'Fullstack Engineer', 'API Designer']
+const { data: profile } = useProfile()
+
+// Typewriter state
+const roles = computed(() => profile.value?.roles ?? ['Developer'])
 const currentRoleIndex = ref(0)
-const displayedRole = ref(roles[0]!)
+const displayedRole = ref(roles.value[0] ?? '')
 const isDeleting = ref(false)
-const charIndex = ref(roles[0]!.length)
+const charIndex = ref(displayedRole.value.length)
 
-const socials = [
-  { icon: Github,    label: 'GitHub',    href: 'https://github.com/snazrimuh' },
-  { icon: Linkedin,  label: 'LinkedIn',  href: 'https://linkedin.com/in/syahrizannazri/' },
-  { icon: Mail,      label: 'Email',     href: 'mailto:snazrimuh@gmail.com' },
-]
+watch(roles, (newRoles) => {
+  displayedRole.value = newRoles[0] ?? ''
+  charIndex.value = displayedRole.value.length
+  currentRoleIndex.value = 0
+  isDeleting.value = false
+}, { once: true })
+
+const socials = computed(() => {
+  const p = profile.value
+  if (!p) return []
+  return [
+    p.githubUrl    && { icon: Github,    label: 'GitHub',    href: p.githubUrl },
+    p.linkedinUrl  && { icon: Linkedin,  label: 'LinkedIn',  href: p.linkedinUrl },
+    p.email        && { icon: Mail,      label: 'Email',     href: `mailto:${p.email}` },
+    p.twitterUrl   && { icon: Twitter,   label: 'Twitter',   href: p.twitterUrl },
+    p.instagramUrl && { icon: Instagram, label: 'Instagram', href: p.instagramUrl },
+  ].filter(Boolean) as { icon: any; label: string; href: string }[]
+})
 
 onMounted(() => {
   let timeout: ReturnType<typeof setTimeout>
   function tick() {
-    const role = roles[currentRoleIndex.value]!
+    const role = roles.value[currentRoleIndex.value] ?? ''
     if (!isDeleting.value) {
       if (charIndex.value < role.length) {
         charIndex.value++
@@ -32,7 +48,7 @@ onMounted(() => {
         timeout = setTimeout(tick, 45)
       } else {
         isDeleting.value = false
-        currentRoleIndex.value = (currentRoleIndex.value + 1) % roles.length
+        currentRoleIndex.value = (currentRoleIndex.value + 1) % roles.value.length
         timeout = setTimeout(tick, 300)
       }
     }
@@ -53,7 +69,7 @@ onMounted(() => {
     <div class="relative z-10 container mx-auto px-8 max-w-5xl h-screen flex flex-col justify-center pb-24 lg:pb-16 pt-20 lg:pt-0">
 
       <!-- Open to work badge -->
-      <div class="inline-flex items-center gap-2 mb-6">
+      <div v-if="profile?.openToWork" class="inline-flex items-center gap-2 mb-6">
         <span class="relative flex h-2 w-2">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
           <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -63,8 +79,8 @@ onMounted(() => {
 
       <!-- Name -->
       <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.05] mb-4">
-        Syah Rizan<br />
-        <span class="text-gradient">Nazri Muhammad</span>
+        {{ profile?.nameFirst }}<br />
+        <span class="text-gradient">{{ profile?.nameSecond }}</span>
       </h1>
 
       <!-- Typewriter role -->
@@ -75,10 +91,9 @@ onMounted(() => {
         </span>
       </p>
 
-      <!-- Short bio -->
-      <p class="text-base text-muted-foreground max-w-xl leading-relaxed mb-8">
-        Software Engineer specializing in scalable backend systems, API architecture, and fullstack engineering for impactful products.
-        <br>Based in Tangerang City, Indonesia.
+      <!-- Short bio/tagline -->
+      <p class="text-base text-muted-foreground max-w-xl leading-relaxed mb-8 whitespace-pre-line">
+        {{ profile?.tagline }}
       </p>
 
       <!-- Social links -->

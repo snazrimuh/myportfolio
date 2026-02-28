@@ -12,7 +12,7 @@
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: hsl(248 18% 4%);
+  background: hsl(var(--background));
 }
 
 .blob {
@@ -50,7 +50,7 @@
 .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 50%, transparent 40%, hsl(248 18% 3% / 0.7) 100%);
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, hsl(var(--background) / 0.7) 100%);
   pointer-events: none;
 }
 

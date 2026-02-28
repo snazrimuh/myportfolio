@@ -5,6 +5,7 @@ import type { ApiSkillCategory } from '~/composables/usePublicApi'
 
 const iconMap: Record<string, LucideIcon> = { Monitor, Server, Database, Wrench, Cpu, Brain }
 
+const { data: profile } = useProfile()
 const { fetchSkills } = usePublicApi()
 const skillCategories = ref<ApiSkillCategory[]>([])
 
@@ -31,7 +32,7 @@ function getIcon(name: string) {
       </div>
 
       <p class="text-center text-muted-foreground text-base leading-relaxed max-w-xl mx-auto mb-14">
-        Technologies and tools I use to build products from scratch.
+        {{ profile?.skillsTagline || 'Technologies and tools I use to build products from scratch.' }}
       </p>
 
       <!-- Categories grid -->

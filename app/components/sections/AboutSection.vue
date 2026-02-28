@@ -2,6 +2,7 @@
 import { ChevronRight } from 'lucide-vue-next'
 import type { ApiExperience } from '~/composables/usePublicApi'
 
+const { data: profile } = useProfile()
 const { fetchExperiences } = usePublicApi()
 
 const internships = ref<ApiExperience[]>([])
@@ -19,12 +20,16 @@ onMounted(async () => {
   }
 })
 
-const infoItems = [
-  { label: 'City',      value: 'Tangerang City, Indonesia' },
-  { label: 'Degree',    value: 'S1 Informatics' },
-  { label: 'Email',     value: 'snazrimuh@gmail.com' },
-  { label: 'Freelance', value: 'Available' },
-]
+const infoItems = computed(() => {
+  const p = profile.value
+  if (!p) return []
+  return [
+    { label: 'City',      value: p.location },
+    { label: 'Degree',    value: p.degree },
+    { label: 'Email',     value: p.email },
+    { label: 'Freelance', value: p.freelanceAvailable ? 'Available' : 'Not available' },
+  ].filter(item => item.value)
+})
 </script>
 
 <template>
@@ -37,30 +42,20 @@ const infoItems = [
       </div>
 
       <!-- General bio summary -->
-      <p class="text-muted-foreground text-base leading-relaxed text-justify mb-10">
-        I am a Software Engineer with a strong passion for building scalable backend systems, clean APIs, and reliable fullstack applications. With hands-on experience across backend development, mobile, and data-driven projects, I focus on creating efficient, maintainable solutions that solve real-world problems.
-        I enjoy designing clean architectures, optimizing system performance, and translating complex requirements into practical and impactful digital products. Adaptable and collaborative by nature, I continuously explore new technologies and best practices to grow as an engineer and contribute to meaningful technology-driven environments.
+      <p class="text-muted-foreground text-base leading-relaxed text-justify mb-10 whitespace-pre-line">
+        {{ profile?.bio }}
       </p>
 
-      <!-- Role sub-sections -->
-      <div class="grid gap-5 sm:grid-cols-2 mb-10">
-        <!-- Backend & Fullstack -->
-        <div class="minimal-card rounded-2xl p-6 space-y-2">
-          <h3 class="text-base font-bold font-display text-foreground">Backend Developer &amp; Software Engineer</h3>
+      <!-- Role sub-sections (dynamic about cards) -->
+      <div v-if="profile?.aboutCards?.length" class="grid gap-5 sm:grid-cols-2 mb-10">
+        <div
+          v-for="(card, i) in profile.aboutCards"
+          :key="i"
+          class="minimal-card rounded-2xl p-6 space-y-2"
+        >
+          <h3 class="text-base font-bold font-display text-foreground">{{ card.title }}</h3>
           <p class="text-sm text-muted-foreground leading-relaxed text-justify">
-            Experienced in backend system development, API design, database management, and IoT-based solutions.
-            Accustomed to working in project-based environments and collaborating effectively to solve problems
-            in a structured and maintainable manner.
-          </p>
-        </div>
-
-        <!-- ML & AI -->
-        <div class="minimal-card rounded-2xl p-6 space-y-2">
-          <h3 class="text-base font-bold font-display text-foreground">ML &amp; AI Engineer</h3>
-          <p class="text-sm text-muted-foreground leading-relaxed text-justify">
-            Experienced in building machine learning pipelines, training deep learning models, and integrating
-            AI capabilities into real-world applications. Passionate about data-driven solutions and applying
-            modern AI techniques to solve practical problems.
+            {{ card.description }}
           </p>
         </div>
       </div>

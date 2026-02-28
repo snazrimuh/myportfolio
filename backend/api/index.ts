@@ -16,7 +16,11 @@ async function bootstrap() {
     app.setGlobalPrefix('api');
 
     app.enableCors({
-      origin: true, // allow all origins (can restrict later)
+      origin: [
+        process.env.FRONTEND_URL || '',
+        /\.vercel\.app$/,
+        'http://localhost:3000',
+      ].filter(Boolean),
       credentials: true,
     });
 

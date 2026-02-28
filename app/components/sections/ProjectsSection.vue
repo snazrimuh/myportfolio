@@ -3,6 +3,7 @@ import { Github, ExternalLink } from 'lucide-vue-next'
 import { Badge } from '~/components/ui/badge'
 import type { ApiProject, ProjectCategory } from '~/composables/usePublicApi'
 
+const { data: profile } = useProfile()
 const { fetchProjects } = usePublicApi()
 const allProjects = ref<ApiProject[]>([])
 const activeFilter = ref<ProjectCategory | 'ALL'>('ALL')
@@ -64,7 +65,7 @@ const categoryColor: Record<ProjectCategory, string> = {
       </div>
 
       <p class="text-center text-muted-foreground text-base leading-relaxed max-w-xl mx-auto mb-10">
-        A selection of things I've built  from APIs to web apps and mobile applications.
+        {{ profile?.projectsTagline || "A selection of things I've built — from APIs to web apps and mobile applications." }}
       </p>
 
       <!-- Filter tabs -->

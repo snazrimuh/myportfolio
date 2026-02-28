@@ -136,7 +136,7 @@ onMounted(fetchExperiences)
         Back to Dashboard
       </NuxtLink>
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold font-retro text-primary retro-glow">Experiences</h1>
+        <h1 class="text-2xl font-bold font-display text-foreground">Experiences</h1>
         <Button @click="openCreate">
           <Plus class="mr-1 h-4 w-4" /> Add Experience
         </Button>
@@ -214,9 +214,8 @@ onMounted(fetchExperiences)
     </div>
 
     <!-- Experiences table -->
-    <Card class="border-primary/20">
-      <CardContent class="p-0">
-        <div class="overflow-x-auto">
+    <div class="minimal-card rounded-2xl overflow-hidden">
+      <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-border text-left text-muted-foreground">
@@ -262,7 +261,6 @@ onMounted(fetchExperiences)
             </tbody>
           </table>
         </div>
-      </CardContent>
-    </Card>
+    </div>
   </div>
 </template>

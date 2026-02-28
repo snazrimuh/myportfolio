@@ -126,7 +126,7 @@ onMounted(fetchCategories)
         Back to Dashboard
       </NuxtLink>
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold font-retro text-primary retro-glow">Skills</h1>
+        <h1 class="text-2xl font-bold font-display text-foreground">Skills</h1>
         <Button @click="openCreate">
           <Plus class="mr-1 h-4 w-4" /> Add Category
         </Button>
@@ -208,9 +208,9 @@ onMounted(fetchCategories)
 
     <!-- Skill categories grid -->
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <Card v-for="cat in categories" :key="cat.id" class="border-primary/20">
-        <CardHeader class="flex flex-row items-center justify-between pb-2">
-          <CardTitle class="text-base">{{ cat.name }}</CardTitle>
+      <div v-for="cat in categories" :key="cat.id" class="minimal-card rounded-2xl p-5">
+        <div class="flex flex-row items-center justify-between pb-2">
+          <p class="text-base font-semibold font-display text-foreground">{{ cat.name }}</p>
           <div class="flex gap-1">
             <Button variant="ghost" size="sm" @click="openEdit(cat)">
               <Pencil class="h-4 w-4" />
@@ -219,23 +219,23 @@ onMounted(fetchCategories)
               <Trash2 class="h-4 w-4" />
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div>
           <p class="text-xs text-muted-foreground mb-2">Icon: {{ cat.icon }} · Order: {{ cat.order }}</p>
           <div class="flex flex-wrap gap-1">
             <Badge v-for="skill in cat.skills" :key="skill.id" variant="outline" class="text-xs">
               {{ skill.name }}
             </Badge>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card
+      <div
         v-if="!categories.length"
-        class="border-dashed border-primary/20 flex items-center justify-center p-8 sm:col-span-2 lg:col-span-3"
+        class="minimal-card rounded-2xl border-dashed flex items-center justify-center p-8 sm:col-span-2 lg:col-span-3"
       >
         <p class="text-muted-foreground">No skill categories yet</p>
-      </Card>
+      </div>
     </div>
   </div>
 </template>

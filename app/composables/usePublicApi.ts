@@ -40,7 +40,38 @@ interface ApiExperience {
   order: number
 }
 
-export type { ApiSkillCategory, ApiSkill, ApiProject, ApiExperience, ProjectCategory }
+interface AboutCard {
+  title: string
+  description: string
+}
+
+interface ApiProfile {
+  id: number
+  nameFirst: string
+  nameSecond: string
+  roles: string[]
+  tagline: string
+  bio: string
+  location: string
+  email: string
+  degree: string
+  freelanceAvailable: boolean
+  openToWork: boolean
+  resumeUrl: string | null
+  githubUrl: string | null
+  linkedinUrl: string | null
+  twitterUrl: string | null
+  instagramUrl: string | null
+  siteTitle: string
+  siteDescription: string
+  aboutCards: AboutCard[]
+  skillsTagline: string
+  resumeTagline: string
+  projectsTagline: string
+  contactIntro: string
+}
+
+export type { ApiSkillCategory, ApiSkill, ApiProject, ApiExperience, ProjectCategory, ApiProfile, AboutCard }
 
 export function usePublicApi() {
   const config = useRuntimeConfig()
@@ -48,6 +79,9 @@ export function usePublicApi() {
   const API_BASE = (import.meta.server && config.apiBaseInternal)
     ? (config.apiBaseInternal as string)
     : (config.public.apiBase as string)
+
+  const fetchProfile = () =>
+    $fetch<ApiProfile>(`${API_BASE}/profile`)
 
   const fetchSkills = () =>
     $fetch<ApiSkillCategory[]>(`${API_BASE}/skills`)
@@ -65,5 +99,5 @@ export function usePublicApi() {
   const sendContactMessage = (data: { name: string; email: string; message: string }) =>
     $fetch(`${API_BASE}/contacts`, { method: 'POST', body: data })
 
-  return { fetchSkills, fetchProjects, fetchExperiences, sendContactMessage }
+  return { fetchProfile, fetchSkills, fetchProjects, fetchExperiences, sendContactMessage }
 }
