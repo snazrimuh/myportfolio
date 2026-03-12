@@ -2,24 +2,10 @@
 import { Github, Linkedin, Mail, Twitter, Instagram, ArrowDown, Download } from 'lucide-vue-next'
 
 const { data: profile } = useProfile()
-const { fetchExperiences, fetchProjects, fetchSkills } = usePublicApi()
 
-const experienceCount = ref(0)
-const projectCount = ref(0)
-const skillCount = ref(0)
-
-onMounted(async () => {
-  try {
-    const [experiences, projects, skills] = await Promise.all([
-      fetchExperiences(),
-      fetchProjects(),
-      fetchSkills(),
-    ])
-    experienceCount.value = experiences.filter(e => e.type === 'INTERNSHIP').length
-    projectCount.value = projects.length
-    skillCount.value = skills.length
-  } catch {}
-})
+const experienceCount = ref(10)
+const projectCount = ref(30)
+const skillCount = ref(50)
 
 // CV URL: absolute https://... dipakai langsung; path relatif /... diserve Nuxt/Vercel frontend.
 const cvUrl = computed(() => {
