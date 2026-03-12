@@ -33,42 +33,93 @@ async function main() {
       icon: 'Monitor',
       color: 'rgba(59, 130, 246, 0.1)',
       order: 1,
-      skills: ['Vue.js', 'Nuxt.js', 'Next.js', 'React.js', 'TypeScript', 'Tailwind CSS', 'Bootstrap', 'HTML/CSS', 'Jetpack Compose'],
+      skills: [
+        { name: 'Vue.js', icon: 'Vue' },
+        { name: 'Nuxt.js', icon: 'Nuxt' },
+        { name: 'Next.js', icon: 'Next.js' },
+        { name: 'React.js', icon: 'React' },
+        { name: 'TypeScript', icon: 'TypeScript' },
+        { name: 'Tailwind CSS', icon: 'Tailwind CSS' },
+        { name: 'Bootstrap', icon: 'Bootstrap' },
+        { name: 'HTML/CSS', icon: 'JavaScript' },
+        { name: 'Jetpack Compose', icon: 'Kotlin' },
+      ],
     },
     {
       name: 'Backend',
       icon: 'Server',
       color: 'rgba(16, 185, 129, 0.1)',
       order: 2,
-      skills: ['NestJS', 'Node.js', 'Express.js', 'Laravel', 'PHP', 'REST API', 'Python'],
+      skills: [
+        { name: 'NestJS', icon: 'NestJS' },
+        { name: 'Node.js', icon: 'Node.js' },
+        { name: 'Express.js', icon: 'Express' },
+        { name: 'Laravel', icon: 'Laravel' },
+        { name: 'PHP', icon: 'PHP' },
+        { name: 'REST API', icon: 'REST API' },
+        { name: 'Python', icon: 'Python' },
+      ],
     },
     {
       name: 'Database',
       icon: 'Database',
       color: 'rgba(245, 158, 11, 0.1)',
       order: 3,
-      skills: ['PostgreSQL', 'MySQL', 'MariaDB', 'MongoDB', 'Firebase', 'Prisma'],
+      skills: [
+        { name: 'PostgreSQL', icon: 'PostgreSQL' },
+        { name: 'MySQL', icon: 'MySQL' },
+        { name: 'MariaDB', icon: 'MySQL' },
+        { name: 'MongoDB', icon: 'MongoDB' },
+        { name: 'Firebase', icon: 'Firebase' },
+        { name: 'Prisma', icon: 'Prisma' },
+      ],
     },
     {
       name: 'Mobile & IoT',
       icon: 'Cpu',
       color: 'rgba(239, 68, 68, 0.1)',
       order: 4,
-      skills: ['Kotlin', 'Retrofit', 'ESP8266', 'Arduino', 'MQTT', 'Sensor Integration', 'Orange Pi'],
+      skills: [
+        { name: 'Kotlin', icon: 'Kotlin' },
+        { name: 'Retrofit', icon: 'Kotlin' },
+        { name: 'ESP8266', icon: 'IoT' },
+        { name: 'Arduino', icon: 'IoT' },
+        { name: 'MQTT', icon: 'IoT' },
+        { name: 'Sensor Integration', icon: 'IoT' },
+        { name: 'Orange Pi', icon: 'IoT' },
+      ],
     },
     {
       name: 'AI & Machine Learning',
       icon: 'Brain',
       color: 'rgba(168, 85, 247, 0.1)',
       order: 5,
-      skills: ['TensorFlow', 'Python', 'Computer Vision', 'Pandas', 'NumPy', 'Scikit-learn'],
+      skills: [
+        { name: 'TensorFlow', icon: 'TensorFlow' },
+        { name: 'Python', icon: 'Python' },
+        { name: 'Computer Vision', icon: 'Computer Vision' },
+        { name: 'Pandas', icon: 'Pandas' },
+        { name: 'NumPy', icon: 'NumPy' },
+        { name: 'Scikit-learn', icon: 'Scikit-learn' },
+      ],
     },
     {
       name: 'DevOps & Tools',
       icon: 'Wrench',
       color: 'rgba(139, 92, 246, 0.1)',
       order: 6,
-      skills: ['Git', 'Docker', 'CI/CD', 'AWS', 'GCP', 'Firebase', 'Postman', 'Figma', 'Linux', 'Vercel'],
+      skills: [
+        { name: 'Git', icon: 'Git' },
+        { name: 'Docker', icon: 'Docker' },
+        { name: 'CI/CD', icon: 'Pipeline' },
+        { name: 'AWS', icon: 'AWS' },
+        { name: 'GCP', icon: 'GCP' },
+        { name: 'Firebase', icon: 'Firebase' },
+        { name: 'Postman', icon: 'Postman' },
+        { name: 'Figma', icon: 'Figma' },
+        { name: 'Linux', icon: 'Linux' },
+        { name: 'Vercel', icon: 'Vercel' },
+      ],
     },
   ];
 
@@ -78,7 +129,12 @@ async function main() {
       data: {
         ...categoryData,
         skills: {
-          create: skills.map((name) => ({ name })),
+          create: skills.map((skill) => {
+            if (typeof skill === 'string') {
+              return { name: skill };
+            }
+            return { name: skill.name, icon: skill.icon };
+          }),
         },
       },
     });

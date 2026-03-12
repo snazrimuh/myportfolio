@@ -37,9 +37,11 @@ model SkillCategory {
 model Skill {
   id         Int           @id @default(autoincrement())
   name       String
+  icon       String?       // icon name (e.g. "TypeScript", "React")
   categoryId Int           @map("category_id")
   category   SkillCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
 
   @@map("skills")
 }

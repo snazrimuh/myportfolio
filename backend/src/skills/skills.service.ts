@@ -30,7 +30,12 @@ export class SkillsService {
       data: {
         ...categoryData,
         skills: skills
-          ? { create: skills.map((name) => ({ name })) }
+          ? { create: skills.map((skill) => {
+              if (typeof skill === 'string') {
+                return { name: skill };
+              }
+              return { name: skill.name, icon: skill.icon };
+            })}
           : undefined,
       },
       include: { skills: true },
@@ -40,7 +45,7 @@ export class SkillsService {
   async update(id: number, dto: UpdateSkillCategoryDto) {
     await this.findOne(id); // ensure exists
 
-    const { skills, ...categoryData } = dto as CreateSkillCategoryDto & { skills?: string[] };
+    const { skills, ...categoryData } = dto as CreateSkillCategoryDto & { skills?: any[] };
 
     // If skills are provided, replace all skills
     if (skills !== undefined) {
@@ -52,7 +57,12 @@ export class SkillsService {
       data: {
         ...categoryData,
         skills: skills
-          ? { create: skills.map((name: string) => ({ name })) }
+          ? { create: skills.map((skill: any) => {
+              if (typeof skill === 'string') {
+                return { name: skill };
+              }
+              return { name: skill.name, icon: skill.icon };
+            })}
           : undefined,
       },
       include: { skills: true },

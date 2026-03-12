@@ -1,4 +1,15 @@
-import { IsString, IsNotEmpty, IsOptional, IsInt, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsInt, IsArray, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class CreateSkillDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsOptional()
+  icon?: string;
+}
 
 export class CreateSkillCategoryDto {
   @IsString()
@@ -18,7 +29,8 @@ export class CreateSkillCategoryDto {
   order?: number;
 
   @IsArray()
-  @IsString({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => CreateSkillDto)
   @IsOptional()
-  skills?: string[];
+  skills?: CreateSkillDto[] | string[];
 }
