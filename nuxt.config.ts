@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Server-side only: used for SSR fetch inside Docker network
     apiBaseInternal: process.env.NUXT_API_BASE_INTERNAL || '',
+    githubToken: process.env.NUXT_GITHUB_TOKEN || '',
     public: {
       // Client-side (browser) visible: must point to publicly accessible URL
       apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:3001/api',

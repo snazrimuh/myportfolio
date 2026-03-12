@@ -30,6 +30,17 @@ const infoItems = computed(() => {
     { label: 'Freelance', value: p.freelanceAvailable ? 'Available' : 'Not available' },
   ].filter(item => item.value)
 })
+
+// Extract GitHub username dari URL (e.g. https://github.com/snazrimuh → snazrimuh)
+const githubUsername = computed(() => {
+  const url = profile.value?.githubUrl
+  if (!url) return null
+  try {
+    return new URL(url).pathname.replace(/^\//, '').split('/')[0] || null
+  } catch {
+    return null
+  }
+})
 </script>
 
 <template>
@@ -60,41 +71,37 @@ const infoItems = computed(() => {
         </div>
       </div>
 
-      <!-- Info & Stats -->
-      <div class="space-y-6">
-        <!-- Info grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3">
-          <div
-            v-for="item in infoItems"
-            :key="item.label"
-            class="flex items-center gap-2 text-sm"
-          >
-            <ChevronRight class="h-3.5 w-3.5 text-primary shrink-0" />
-            <span class="font-semibold text-foreground min-w-[4rem]">{{ item.label }}:</span>
-            <span class="text-muted-foreground">{{ item.value }}</span>
-          </div>
+      <!-- Globe + GitHub cards row -->
+      <div class="flex flex-col sm:flex-row gap-3 mb-8 items-stretch">
+        <!-- Globe card -->
+        <div class="sm:w-[36%] shrink-0 h-72">
+          <EffectsGlobeMap />
         </div>
 
-        <!-- Stats row -->
-        <div class="grid grid-cols-3 gap-4 pt-2">
-          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-            <p class="text-2xl font-bold font-display text-primary">
-              <EffectsCountUp :target="internships.length" :duration="2000" suffix="+" />
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Internships</p>
+        <!-- GitHub contributions card -->
+        <div v-if="githubUsername" class="flex-1 minimal-card rounded-2xl p-4 flex flex-col overflow-hidden h-72">
+          <!-- Card header -->
+          <div class="flex items-center gap-2 mb-2 shrink-0">
+            <svg class="w-4 h-4 text-foreground" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span class="text-sm font-semibold text-foreground">@{{ githubUsername }}</span>
           </div>
-          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-            <p class="text-2xl font-bold font-display text-primary">
-              <EffectsCountUp :target="15" :duration="2000" suffix="+" />
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Projects</p>
+          <!-- Contributions graph -->
+          <div class="flex-1 min-h-0 overflow-hidden">
+            <EffectsGitHubContributions :username="githubUsername" />
           </div>
-          <div class="text-center p-4 rounded-xl bg-secondary border border-border">
-            <p class="text-2xl font-bold font-display text-primary">
-              <EffectsCountUp :target="certifications.length" :duration="2000" />
-            </p>
-            <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Certs</p>
-          </div>
+        </div>
+      </div>
+
+      <!-- Info grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-3 mb-10">
+        <div
+          v-for="item in infoItems"
+          :key="item.label"
+          class="flex items-center gap-2 text-sm"
+        >
+          <ChevronRight class="h-3.5 w-3.5 text-primary shrink-0" />
+          <span class="font-semibold text-foreground min-w-[4rem]">{{ item.label }}:</span>
+          <span class="text-muted-foreground">{{ item.value }}</span>
         </div>
       </div>
 

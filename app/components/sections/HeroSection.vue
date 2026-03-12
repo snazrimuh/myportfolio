@@ -2,6 +2,24 @@
 import { Github, Linkedin, Mail, Twitter, Instagram, ArrowDown, Download } from 'lucide-vue-next'
 
 const { data: profile } = useProfile()
+const { fetchExperiences, fetchProjects, fetchSkills } = usePublicApi()
+
+const experienceCount = ref(0)
+const projectCount = ref(0)
+const skillCount = ref(0)
+
+onMounted(async () => {
+  try {
+    const [experiences, projects, skills] = await Promise.all([
+      fetchExperiences(),
+      fetchProjects(),
+      fetchSkills(),
+    ])
+    experienceCount.value = experiences.filter(e => e.type === 'INTERNSHIP').length
+    projectCount.value = projects.length
+    skillCount.value = skills.length
+  } catch {}
+})
 
 // CV URL: absolute https://... dipakai langsung; path relatif /... diserve Nuxt/Vercel frontend.
 const cvUrl = computed(() => {
@@ -73,7 +91,7 @@ onMounted(() => {
     <div class="absolute top-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
     <div class="absolute bottom-40 left-20 w-64 h-64 bg-primary/8 rounded-full blur-2xl pointer-events-none" />
 
-    <div class="relative z-10 container mx-auto px-8 max-w-5xl h-screen flex flex-col justify-center pb-24 lg:pb-16 pt-20 lg:pt-0">
+    <div class="relative z-10 container mx-auto px-8 max-w-5xl h-screen flex flex-col justify-center pb-16 pt-32 lg:pt-24">
 
       <!-- Open to work badge -->
       <div v-if="profile?.openToWork" class="inline-flex items-center gap-2 mb-6">
@@ -85,7 +103,7 @@ onMounted(() => {
       </div>
 
       <!-- Name -->
-      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.05] mb-4">
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.05] mb-4">
         {{ profile?.nameFirst }}<br />
         <span class="text-gradient">{{ profile?.nameSecond }}</span>
       </h1>
@@ -129,6 +147,28 @@ onMounted(() => {
           <Download class="h-4 w-4" />
           Download CV
         </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex gap-8 mt-10">
+        <div>
+          <p class="text-2xl font-bold font-display text-foreground">
+            <EffectsCountUp :target="experienceCount" :duration="1800" suffix="+" />
+          </p>
+          <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Experience</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold font-display text-foreground">
+            <EffectsCountUp :target="projectCount" :duration="1800" suffix="+" />
+          </p>
+          <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Projects</p>
+        </div>
+        <div>
+          <p class="text-2xl font-bold font-display text-foreground">
+            <EffectsCountUp :target="skillCount" :duration="1800" suffix="+" />
+          </p>
+          <p class="text-xs text-muted-foreground mt-0.5 uppercase tracking-wide">Skills</p>
+        </div>
       </div>
     </div>
 
