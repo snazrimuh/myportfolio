@@ -86,10 +86,10 @@ onMounted(() => {
 <template>
   <section id="hero" class="relative min-h-screen overflow-hidden bg-background">
     <!-- Background subtle gradient -->  
-    <div class="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/30 pointer-events-none" />
-    <!-- Decorative blobs -->
-    <div class="absolute top-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-    <div class="absolute bottom-40 left-20 w-64 h-64 bg-primary/8 rounded-full blur-2xl pointer-events-none" />
+    <div class="absolute inset-0 bg-gradient-to-b from-background via-background to-muted/20 pointer-events-none" />
+    <!-- Decorative geometric shapes -->
+    <div class="absolute top-20 right-10 w-96 h-96 bg-foreground/[0.02] rounded-full blur-3xl pointer-events-none" />
+    <div class="absolute bottom-40 left-20 w-64 h-64 bg-foreground/[0.03] rounded-full blur-2xl pointer-events-none" />
 
     <div class="relative z-10 container mx-auto px-8 max-w-6xl h-screen flex flex-col lg:flex-row items-center pb-16 pt-40 lg:pt-20">
 
@@ -99,10 +99,10 @@ onMounted(() => {
         <!-- Open to work badge -->
         <div v-if="profile?.openToWork" class="inline-flex items-center gap-2 mb-6">
           <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-40" />
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-foreground" />
           </span>
-          <span class="text-xs font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Open to work</span>
+          <span class="text-xs font-medium text-foreground/80 uppercase tracking-widest">Open to work</span>
         </div>
 
         <!-- Name -->
@@ -114,7 +114,7 @@ onMounted(() => {
         <!-- Typewriter role -->
         <p class="text-xl sm:text-2xl text-muted-foreground mb-6 font-display">
           I'm
-          <span class="text-foreground font-semibold border-b-2 border-primary pb-0.5">
+          <span class="text-foreground font-semibold border-b-2 border-foreground/30 pb-0.5">
             {{ displayedRole }}<span class="animate-pulse">|</span>
           </span>
         </p>
@@ -133,7 +133,7 @@ onMounted(() => {
             :aria-label="s.label"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-11 h-11 rounded-full flex items-center justify-center border border-border bg-card text-muted-foreground hover:text-primary hover:border-primary/50 hover:shadow-sm transition-all duration-200"
+            class="w-11 h-11 rounded-full flex items-center justify-center border border-border bg-card text-muted-foreground hover:text-foreground hover:border-foreground/30 hover:shadow-sm transition-all duration-200"
           >
             <component :is="s.icon" class="h-4.5 w-4.5" />
           </a>
@@ -145,7 +145,7 @@ onMounted(() => {
             target="_blank"
             rel="noopener noreferrer"
             download
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/50 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 hover:shadow-sm transition-all duration-200"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-foreground/20 bg-foreground/5 text-foreground text-sm font-medium hover:bg-foreground/10 hover:shadow-sm transition-all duration-200"
           >
             <Download class="h-4 w-4" />
             Download CV
@@ -176,26 +176,31 @@ onMounted(() => {
 
       </div>
 
-      <!-- Right column: profile photo -->
-      <div class="absolute lg:relative -bottom-32 lg:bottom-auto right-0 lg:flex lg:items-center lg:self-stretch w-screen lg:w-96 xl:w-[28rem] lg:flex-shrink-0 h-96 lg:h-full lg:overflow-hidden overflow-visible pointer-events-none lg:pointer-events-auto">
-        <img
-          src="/me.png"
-          alt="Profile Photo"
-          class="absolute right-0 bottom-0 lg:w-full lg:object-contain lg:object-center select-none pointer-events-none opacity-30 lg:opacity-90 transition-opacity duration-500"
-          style="width: 75%; max-height: 120%; object-fit: contain; object-position: bottom right; filter: blur(0.5px);"
-        />
-        <!-- Gradient vignette - blends edges -->
-        <div class="absolute inset-0 pointer-events-none bg-gradient-to-l from-transparent via-transparent to-background/60 z-[8]" />
-        <!-- Left soft fade (desktop) -->
-        <div class="hidden lg:block absolute inset-y-0 left-0 w-40 z-[7] pointer-events-none" style="background: linear-gradient(to right, var(--background, #0a0e27) 0%, rgba(10, 14, 39, 0.8) 40%, transparent 100%);" />
-        <!-- Bottom soft fade (desktop) -->
-        <div class="hidden lg:block absolute bottom-0 left-0 right-0 h-32 z-[7] pointer-events-none" style="background: linear-gradient(to top, var(--background, #0a0e27) 0%, rgba(10, 14, 39, 0.6) 40%, transparent 100%);" />
-        <!-- Top fade - simple transparent gradient -->
-        <div class="hidden lg:block absolute top-0 left-0 right-0 h-48 z-[7] pointer-events-none" style="background: linear-gradient(to bottom, var(--background, #0a0e27), transparent);" />
-        <!-- Soft halo glow (desktop) -->
-        <div class="hidden lg:block absolute inset-0 z-[6] pointer-events-none" style="background: radial-gradient(ellipse 120% 80% at 55% 45%, color-mix(in srgb, var(--color-primary, #3b82f6) 8%, transparent) 0%, transparent 60%);" />
-        <!-- Secondary glow for more depth -->
-        <div class="hidden lg:block absolute inset-0 z-[5] pointer-events-none" style="background: radial-gradient(circle at 60% 50%, color-mix(in srgb, var(--color-primary, #3b82f6) 5%, transparent) 0%, transparent 50%);" />
+      <!-- Right column: profile photo with glassmorphism -->
+      <div class="absolute lg:relative -bottom-32 lg:bottom-auto right-0 lg:flex lg:items-start lg:self-stretch w-screen lg:w-80 xl:w-96 lg:flex-shrink-0 h-96 lg:h-auto lg:overflow-hidden overflow-visible pointer-events-none lg:pointer-events-auto lg:pt-16">
+        <!-- Glassmorphism card wrapper (desktop only) -->
+        <div class="hidden lg:block absolute inset-4 rounded-3xl bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-xl border border-foreground/10 shadow-2xl shadow-black/5 overflow-hidden" style="backdrop-filter: blur(24px) saturate(100%);">
+          <!-- Photo inside glass card -->
+          <img
+            src="/me.png"
+            alt="Profile Photo"
+            class="w-full h-full object-cover object-center select-none pointer-events-none"
+          />
+          
+          <!-- Subtle inner vignette for depth -->
+          <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 100% 80% at 50% 40%, transparent 0%, hsl(var(--background) / 0.05) 100%);" />
+        </div>
+        
+        <!-- Mobile version -->
+        <div class="lg:hidden relative w-full h-full">
+          <img
+            src="/me.png"
+            alt="Profile Photo"
+            class="absolute right-0 bottom-0 select-none pointer-events-none opacity-30"
+            style="width: 75%; max-height: 120%; object-fit: contain; object-position: bottom right;"
+          />
+          <div class="absolute inset-0 pointer-events-none bg-gradient-to-l from-transparent via-transparent to-background/60" />
+        </div>
       </div>
 
     </div>
@@ -203,7 +208,7 @@ onMounted(() => {
     <!-- Scroll hint -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
       <button
-        class="flex flex-col items-center gap-1 text-muted-foreground/50 hover:text-primary transition-colors duration-200"
+        class="flex flex-col items-center gap-1 text-muted-foreground/50 hover:text-foreground transition-colors duration-200"
         aria-label="Scroll down"
         @click="$el.closest('section')?.nextElementSibling?.scrollIntoView({ behavior: 'smooth' })"
       >

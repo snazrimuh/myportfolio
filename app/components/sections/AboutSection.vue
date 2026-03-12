@@ -99,7 +99,7 @@ const githubUsername = computed(() => {
           :key="item.label"
           class="flex items-center gap-2 text-sm"
         >
-          <ChevronRight class="h-3.5 w-3.5 text-primary shrink-0" />
+          <ChevronRight class="h-3.5 w-3.5 text-foreground/60 shrink-0" />
           <span class="font-semibold text-foreground min-w-[4rem]">{{ item.label }}:</span>
           <span class="text-muted-foreground">{{ item.value }}</span>
         </div>
@@ -117,7 +117,7 @@ const githubUsername = computed(() => {
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-2">
               <div>
                 <p class="text-sm font-semibold uppercase tracking-wide text-foreground">{{ exp.title }}</p>
-                <p class="text-xs text-primary mt-0.5">{{ exp.company }}</p>
+                <p class="text-xs text-foreground/70 mt-0.5">{{ exp.company }}</p>
               </div>
               <span class="text-xs text-muted-foreground whitespace-nowrap">
                 {{ new Date(exp.startDate).getFullYear() }}

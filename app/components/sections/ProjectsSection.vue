@@ -48,10 +48,10 @@ const categoryLabel: Record<ProjectCategory, string> = {
 }
 
 const categoryColor: Record<ProjectCategory, string> = {
-  BACKEND:   'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-  FULLSTACK: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-  MOBILE:    'bg-violet-500/10 text-violet-600 dark:text-violet-400',
-  ML_DL:     'bg-amber-500/10 text-amber-600 dark:text-amber-400',
+  BACKEND:   'bg-foreground/10 text-foreground border border-foreground/20',
+  FULLSTACK: 'bg-foreground/8 text-foreground border border-foreground/15',
+  MOBILE:    'bg-foreground/12 text-foreground border border-foreground/25',
+  ML_DL:     'bg-foreground/6 text-foreground border border-foreground/10',
 }
 </script>
 

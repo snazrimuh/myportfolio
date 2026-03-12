@@ -63,8 +63,8 @@ function showSectionHeader(index: number) {
             v-if="showSectionHeader(i)"
             class="resume-section-header"
           >
-            <h3 class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-              <span class="inline-block w-6 h-px bg-primary shrink-0" />
+            <h3 class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground/70">
+              <span class="inline-block w-6 h-px bg-foreground/70 shrink-0" />
               {{ item._section }}
             </h3>
           </div>
@@ -75,7 +75,7 @@ function showSectionHeader(index: number) {
             <div class="resume-line" />
             <span class="resume-dot" />
 
-            <p class="text-[10px] font-semibold uppercase tracking-widest text-primary mb-0.5">
+            <p class="text-[10px] font-semibold uppercase tracking-widest text-foreground/60 mb-0.5">
               {{ formatRange(item.startDate, item.endDate) }}
             </p>
             <h4 class="text-sm font-bold text-foreground leading-snug mb-0.5">
@@ -155,7 +155,7 @@ function showSectionHeader(index: number) {
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  border: 2px solid var(--primary, #3b82f6);
+  border: 2px solid hsl(var(--foreground) / 0.3);
   background: var(--background, #fff);
   display: block;
 }

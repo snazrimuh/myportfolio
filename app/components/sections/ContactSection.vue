@@ -60,7 +60,7 @@ const contactLinks = computed(() => {
         <!-- Left: Contact info -->
         <div class="space-y-6">
           <div class="flex items-start gap-3">
-            <MapPin class="h-4.5 w-4.5 text-primary mt-0.5 shrink-0" />
+            <MapPin class="h-4.5 w-4.5 text-foreground/70 mt-0.5 shrink-0" />
             <div>
               <p class="text-xs text-muted-foreground uppercase tracking-wide mb-0.5">Location</p>
               <p class="text-sm font-medium text-foreground">{{ profile?.location }}</p>
@@ -72,13 +72,13 @@ const contactLinks = computed(() => {
             :key="link.href"
             class="flex items-start gap-3"
           >
-            <component :is="link.icon" class="h-4.5 w-4.5 text-primary mt-0.5 shrink-0" />
+            <component :is="link.icon" class="h-4.5 w-4.5 text-foreground/70 mt-0.5 shrink-0" />
             <div>
               <a
                 :href="link.href"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                class="text-sm font-medium text-foreground hover:text-foreground/70 transition-colors"
               >
                 {{ link.label }}
               </a>
@@ -96,7 +96,7 @@ const contactLinks = computed(() => {
                 v-model="form.name"
                 placeholder="Your name"
                 required
-                class="bg-background border-border focus:border-primary/60 transition-colors rounded-xl"
+                class="bg-background border-border focus:border-foreground/40 transition-colors rounded-xl"
               />
             </div>
             <div class="space-y-1.5">
@@ -107,7 +107,7 @@ const contactLinks = computed(() => {
                 type="email"
                 placeholder="your@email.com"
                 required
-                class="bg-background border-border focus:border-primary/60 transition-colors rounded-xl"
+                class="bg-background border-border focus:border-foreground/40 transition-colors rounded-xl"
               />
             </div>
           </div>
@@ -118,21 +118,21 @@ const contactLinks = computed(() => {
               id="message"
               v-model="form.message"
               placeholder="Tell me about your project or idea..."
-              class="min-h-32 bg-background border-border focus:border-primary/60 transition-colors resize-none rounded-xl"
+              class="min-h-32 bg-background border-border focus:border-foreground/40 transition-colors resize-none rounded-xl"
               required
             />
           </div>
 
           <p
             v-if="statusMessage"
-            :class="['text-sm', statusType === 'success' ? 'text-emerald-500' : 'text-red-500']"
+            :class="['text-sm', statusType === 'success' ? 'text-foreground/80' : 'text-foreground/60']"
           >
             {{ statusMessage }}
           </p>
 
           <Button
             type="submit"
-            class="w-full bg-primary hover:bg-primary/90 text-white rounded-xl transition-all hover:shadow-md hover:shadow-primary/20"
+            class="w-full bg-foreground hover:bg-foreground/90 text-background rounded-xl transition-all hover:shadow-md hover:shadow-foreground/10"
             :disabled="sending"
           >
             <Send class="mr-2 h-3.5 w-3.5" />

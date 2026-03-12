@@ -50,13 +50,13 @@ onMounted(() => {
       :key="item.id"
       :aria-label="item.label"
       :aria-current="activeSection === item.id ? 'page' : undefined"
-      class="group flex items-center gap-3 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      class="group flex items-center gap-3 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
       @click="scrollTo(item.id)"
     >
       <!-- Active pill -->
       <div
         v-if="activeSection === item.id"
-        class="flex items-center gap-3 rounded-full px-5 py-3 bg-primary text-white shadow-lg shadow-primary/25 text-base font-semibold font-display"
+        class="flex items-center gap-3 rounded-full px-5 py-3 bg-foreground text-background shadow-lg shadow-foreground/15 text-base font-semibold font-display"
       >
         <component :is="item.icon" class="h-5 w-5 shrink-0" />
         <span>{{ item.label }}</span>
@@ -64,10 +64,10 @@ onMounted(() => {
       <!-- Inactive circle -->
       <div
         v-else
-        class="flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground group-hover:text-white group-hover:bg-primary group-hover:border-primary transition-all duration-200"
+        class="flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground group-hover:text-background group-hover:bg-foreground group-hover:border-foreground transition-all duration-200"
       >
         <component :is="item.icon" class="h-5 w-5 shrink-0" />
-        <span class="hidden group-hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ item.label }}</span>
+        <span class="hidden group-hover:inline text-base font-semibold font-display group-hover:text-background whitespace-nowrap">{{ item.label }}</span>
       </div>
     </button>
 
@@ -76,13 +76,13 @@ onMounted(() => {
 
     <!-- Theme toggle -->
     <button
-      class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-white hover:bg-primary hover:border-primary transition-all duration-200"
+      class="group flex items-center gap-3 rounded-full px-3 py-3 h-12 bg-sidebar border border-sidebar-border text-muted-foreground hover:text-background hover:bg-foreground hover:border-foreground transition-all duration-200"
       :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
       @click="toggleTheme"
     >
       <Sun v-if="isDark" class="h-5 w-5 shrink-0" />
       <Moon v-else class="h-5 w-5 shrink-0" />
-      <span class="hidden hover:inline text-base font-semibold font-display text-white whitespace-nowrap">{{ isDark ? 'Light' : 'Dark' }}</span>
+      <span class="hidden group-hover:inline text-base font-semibold font-display group-hover:text-background whitespace-nowrap">{{ isDark ? 'Light' : 'Dark' }}</span>
     </button>
   </nav>
 
@@ -97,7 +97,7 @@ onMounted(() => {
       :aria-label="item.label"
       :aria-current="activeSection === item.id ? 'page' : undefined"
       class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all duration-200"
-      :class="activeSection === item.id ? 'text-primary' : 'text-muted-foreground hover:text-foreground'"
+      :class="activeSection === item.id ? 'text-foreground font-semibold' : 'text-muted-foreground hover:text-foreground'"
       @click="scrollTo(item.id)"
     >
       <component :is="item.icon" class="h-5 w-5" />

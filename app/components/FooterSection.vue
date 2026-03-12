@@ -24,7 +24,7 @@ const socials = [
             :aria-label="social.label"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-primary hover:border-primary/40 transition-all duration-200"
+            class="w-8 h-8 rounded-full flex items-center justify-center border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all duration-200"
           >
             <component :is="social.icon" class="h-3.5 w-3.5" />
           </a>

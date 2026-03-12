@@ -82,7 +82,7 @@ function getSkillIcon(skillName: string, skillIcon?: string): LucideIcon | null 
 </script>
 
 <template>
-  <section id="skills" class="py-24 sm:py-32 bg-secondary/30">
+  <section id="skills" class="py-24 sm:py-32 bg-muted/40">
     <div class="container mx-auto px-8 max-w-5xl">
 
       <!-- Section heading -->
@@ -103,8 +103,8 @@ function getSkillIcon(skillName: string, skillIcon?: string): LucideIcon | null 
         >
           <!-- Category header -->
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-              <component :is="getCategoryIcon(category.icon)" class="h-4 w-4 text-primary" />
+            <div class="w-9 h-9 rounded-xl bg-foreground/8 flex items-center justify-center shrink-0">
+              <component :is="getCategoryIcon(category.icon)" class="h-4 w-4 text-foreground/70" />
             </div>
             <h3 class="text-sm font-semibold text-foreground font-display">{{ category.name }}</h3>
           </div>
@@ -114,7 +114,7 @@ function getSkillIcon(skillName: string, skillIcon?: string): LucideIcon | null 
             <div
               v-for="skill in category.skills"
               :key="skill.id"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-transparent text-xs font-normal text-muted-foreground hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all cursor-default group"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-transparent text-xs font-normal text-muted-foreground hover:border-foreground/30 hover:text-foreground hover:bg-foreground/5 transition-all cursor-default group"
             >
               <component
                 v-if="getSkillIcon(skill.name, skill.icon)"

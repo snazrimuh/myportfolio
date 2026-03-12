@@ -20,7 +20,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="fixed top-0 left-0 z-60 h-0.5 bg-primary transition-all duration-100 ease-out"
+    class="fixed top-0 left-0 z-60 h-0.5 bg-foreground transition-all duration-100 ease-out"
     :style="{ width: `${progress * 100}%` }"
   />
 </template>

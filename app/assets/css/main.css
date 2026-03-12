@@ -4,54 +4,54 @@
 /* Class-based dark mode for Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ─── Light theme (default) ─────────────────────────────── */
+/* ─── Light theme (default) - Grayscale ────────────────────── */
 :root {
-  --background: 0 0% 99%;
-  --foreground: 222 47% 11%;
+  --background: 0 0% 98%;
+  --foreground: 0 0% 10%;
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
+  --card-foreground: 0 0% 10%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --primary: 221 83% 53%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 214 32% 96%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 214 32% 96%;
-  --muted-foreground: 215 20% 50%;
-  --accent: 221 83% 53% / 0.10;
-  --accent-foreground: 221 83% 40%;
-  --destructive: 0 72% 51%;
+  --popover-foreground: 0 0% 10%;
+  --primary: 0 0% 20%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 95%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 94%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 15% / 0.08;
+  --accent-foreground: 0 0% 20%;
+  --destructive: 0 0% 25%;
   --destructive-foreground: 0 0% 98%;
-  --border: 214 32% 91%;
-  --input: 214 32% 94%;
-  --ring: 221 83% 53%;
+  --border: 0 0% 88%;
+  --input: 0 0% 92%;
+  --ring: 0 0% 20%;
   --sidebar: 0 0% 97%;
-  --sidebar-border: 214 32% 91%;
+  --sidebar-border: 0 0% 90%;
 }
 
-/* ─── Dark theme ─────────────────────────────────────────── */
+/* ─── Dark theme - Pure Monochrome ─────────────────────────── */
 :root.dark {
-  --background: 222 47% 5%;
-  --foreground: 213 31% 91%;
-  --card: 222 40% 7%;
-  --card-foreground: 213 31% 91%;
-  --popover: 222 40% 7%;
-  --popover-foreground: 213 31% 91%;
-  --primary: 221 83% 60%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 222 40% 10%;
-  --secondary-foreground: 213 31% 91%;
-  --muted: 222 40% 10%;
-  --muted-foreground: 215 20% 48%;
-  --accent: 221 83% 60% / 0.12;
-  --accent-foreground: 221 83% 70%;
-  --destructive: 0 62% 50%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 222 40% 13%;
-  --input: 222 40% 10%;
-  --ring: 221 83% 60%;
-  --sidebar: 222 47% 4%;
-  --sidebar-border: 222 40% 10%;
+  --background: 0 0% 7%;
+  --foreground: 0 0% 95%;
+  --card: 0 0% 10%;
+  --card-foreground: 0 0% 95%;
+  --popover: 0 0% 10%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 0 0% 90%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 95%;
+  --muted: 0 0% 14%;
+  --muted-foreground: 0 0% 55%;
+  --accent: 0 0% 85% / 0.1;
+  --accent-foreground: 0 0% 90%;
+  --destructive: 0 0% 75%;
+  --destructive-foreground: 0 0% 10%;
+  --border: 0 0% 18%;
+  --input: 0 0% 14%;
+  --ring: 0 0% 85%;
+  --sidebar: 0 0% 6%;
+  --sidebar-border: 0 0% 14%;
 }
 
 @theme inline {
@@ -97,7 +97,66 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
   }
+  
+  /* Background patterns for light theme */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(0 0% 85% / 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(0 0% 80% / 0.12) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        hsl(0 0% 88% / 0.06) 2px,
+        hsl(0 0% 88% / 0.06) 4px
+      );
+  }
+  
+  /* Noise texture for light theme */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
+  }
+  
+  /* Background patterns for dark theme */
+  body.dark::before {
+    opacity: 0.3;
+    background-image: 
+      radial-gradient(circle at 20% 30%, hsl(0 0% 18% / 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, hsl(0 0% 15% / 0.25) 0%, transparent 50%),
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 80px,
+        hsl(0 0% 15% / 0.03) 80px,
+        hsl(0 0% 15% / 0.03) 160px
+      );
+  }
+  
+  /* Stronger noise for dark theme */
+  body.dark::after {
+    opacity: 0.025;
+  }
+  
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
   }
@@ -152,9 +211,16 @@
     transform: translateY(-2px);
   }
 
-  /* Gradient heading */
+  /* Gradient heading - Monochrome */
   .text-gradient {
-    background: linear-gradient(135deg, hsl(var(--foreground)) 10%, hsl(var(--primary)) 100%);
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(0 0% 40%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  body.dark .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(0 0% 70%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

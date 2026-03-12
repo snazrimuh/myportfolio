@@ -43,8 +43,8 @@ onMounted(() => {
     <!-- Location label -->
     <div class="flex items-center gap-2 self-start">
       <span class="relative flex h-2.5 w-2.5">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-70" />
-        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-40" />
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-foreground" />
       </span>
       <span class="text-sm font-medium text-foreground">Tangerang, Indonesia</span>
     </div>
