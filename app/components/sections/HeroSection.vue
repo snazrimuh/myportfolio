@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { Github, Linkedin, Mail, Twitter, Instagram, ArrowDown } from 'lucide-vue-next'
+import { Github, Linkedin, Mail, Twitter, Instagram, ArrowDown, Download } from 'lucide-vue-next'
 
 const { data: profile } = useProfile()
+
+// CV URL: absolute https://... dipakai langsung; path relatif /... diserve Nuxt/Vercel frontend.
+const cvUrl = computed(() => {
+  const url = profile.value?.resumeUrl
+  if (!url) return null
+  return url // bisa /cv.pdf atau https://...
+})
 
 // Typewriter state
 const roles = computed(() => profile.value?.roles ?? ['Developer'])
@@ -97,7 +104,7 @@ onMounted(() => {
       </p>
 
       <!-- Social links -->
-      <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center gap-3">
         <a
           v-for="s in socials"
           :key="s.label"
@@ -108,6 +115,19 @@ onMounted(() => {
           class="w-11 h-11 rounded-full flex items-center justify-center border border-border bg-card text-muted-foreground hover:text-primary hover:border-primary/50 hover:shadow-sm transition-all duration-200"
         >
           <component :is="s.icon" class="h-4.5 w-4.5" />
+        </a>
+
+        <!-- Download CV button -->
+        <a
+          v-if="cvUrl"
+          :href="cvUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/50 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 hover:shadow-sm transition-all duration-200"
+        >
+          <Download class="h-4 w-4" />
+          Download CV
         </a>
       </div>
     </div>

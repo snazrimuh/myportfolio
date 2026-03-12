@@ -280,8 +280,9 @@ async function save() {
               <Input v-model="form.email" type="email" placeholder="you@example.com" />
             </div>
             <div class="space-y-1.5">
-              <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Resume URL</label>
-              <Input v-model="form.resumeUrl" placeholder="https://…" />
+              <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">CV / Resume URL</label>
+              <Input v-model="form.resumeUrl" placeholder="/cv.pdf atau https://…" />
+              <p class="text-xs text-muted-foreground">Letakkan file di <code class="font-mono bg-muted px-1 rounded">public/cv.pdf</code>, lalu isi <code class="font-mono bg-muted px-1 rounded">/cv.pdf</code> di sini.</p>
             </div>
             <div class="space-y-1.5">
               <label class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">GitHub URL</label>

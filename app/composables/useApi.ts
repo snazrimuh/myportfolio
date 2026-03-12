@@ -19,13 +19,21 @@ export function useApi() {
       headers['Authorization'] = `Bearer ${token.value}`;
     }
 
-    const res = await $fetch<T>(`${API_BASE}${endpoint}`, {
-      method: (opts.method || 'GET') as any,
-      headers,
-      body: opts.body ? opts.body : undefined,
-    });
-
-    return res;
+    try {
+      const res = await $fetch<T>(`${API_BASE}${endpoint}`, {
+        method: (opts.method || 'GET') as any,
+        headers,
+        body: opts.body ? opts.body : undefined,
+      });
+      return res;
+    } catch (err: any) {
+      // Token invalid/expired — bersihkan dan redirect ke login
+      if (err?.response?.status === 401 || err?.status === 401) {
+        token.value = null;
+        await navigateTo('/admin/login');
+      }
+      throw err;
+    }
   }
 
   return {

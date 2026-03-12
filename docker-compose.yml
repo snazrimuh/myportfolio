@@ -36,6 +36,8 @@ services:
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
     ports:
       - "3001:3001"
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -81,6 +83,7 @@ services:
 
 volumes:
   pg_data:
+  uploads_data:
 
 networks:
   portfolio_net:
