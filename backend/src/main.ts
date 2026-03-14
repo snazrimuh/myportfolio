@@ -1,9 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import * as compression from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable compression
+  app.use(compression());
+
+  // Add Cache-Control for GET requests (1 hour cache for public data)
+  app.use((req, res, next) => {
+    if (req.method === 'GET' && !req.url.includes('/auth') && !req.url.includes('/admin')) {
+      res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=3600');
+    }
+    next();
+  });
 
   // Global prefix: all routes start with /api
   app.setGlobalPrefix('api');

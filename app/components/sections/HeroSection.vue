@@ -77,7 +77,7 @@ onMounted(() => {
     <div class="absolute top-20 right-10 w-96 h-96 bg-foreground/[0.02] rounded-full blur-3xl pointer-events-none" />
     <div class="absolute bottom-40 left-20 w-64 h-64 bg-foreground/[0.03] rounded-full blur-2xl pointer-events-none" />
 
-    <div class="relative z-10 container mx-auto px-8 max-w-6xl h-screen flex flex-col lg:flex-row items-center pb-16 pt-40 lg:pt-20">
+    <div class="relative z-10 container mx-auto px-8 max-w-6xl min-h-screen lg:h-screen flex flex-col lg:flex-row items-center justify-center pb-16 pt-32 lg:pt-20">
 
       <!-- Left column: text content -->
       <div class="flex-1 flex flex-col justify-center lg:py-16 relative z-20">
@@ -163,9 +163,9 @@ onMounted(() => {
       </div>
 
       <!-- Right column: profile photo with glassmorphism -->
-      <div class="absolute lg:relative -bottom-32 lg:bottom-auto right-0 lg:flex lg:items-start lg:self-stretch w-screen lg:w-80 xl:w-96 lg:flex-shrink-0 h-96 lg:h-auto lg:overflow-hidden overflow-visible pointer-events-none lg:pointer-events-auto lg:pt-16">
-        <!-- Glassmorphism card wrapper (desktop only) -->
-        <div class="hidden lg:block absolute inset-4 rounded-3xl bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-xl border border-foreground/10 shadow-2xl shadow-black/5 overflow-hidden" style="backdrop-filter: blur(24px) saturate(100%);">
+      <div class="relative w-full max-w-sm lg:w-80 xl:w-96 lg:max-w-none flex justify-center lg:justify-end lg:block mt-12 lg:mt-0 lg:ml-12 lg:pt-8 pointer-events-auto">
+        <!-- Glassmorphism card wrapper -->
+        <div class="relative w-64 h-80 sm:w-72 sm:h-96 lg:w-full lg:h-[32rem] rounded-3xl bg-gradient-to-br from-foreground/[0.04] to-foreground/[0.01] backdrop-blur-xl border border-foreground/10 shadow-2xl shadow-black/5 overflow-hidden transform transition-transform hover:scale-[1.02] duration-500" style="backdrop-filter: blur(24px) saturate(100%);">
           <!-- Photo inside glass card -->
           <img
             src="/me.png"
@@ -175,17 +175,6 @@ onMounted(() => {
           
           <!-- Subtle inner vignette for depth -->
           <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 100% 80% at 50% 40%, transparent 0%, hsl(var(--background) / 0.05) 100%);" />
-        </div>
-        
-        <!-- Mobile version -->
-        <div class="lg:hidden relative w-full h-full">
-          <img
-            src="/me.png"
-            alt="Profile Photo"
-            class="absolute right-0 bottom-0 select-none pointer-events-none opacity-30"
-            style="width: 75%; max-height: 120%; object-fit: contain; object-position: bottom right;"
-          />
-          <div class="absolute inset-0 pointer-events-none bg-gradient-to-l from-transparent via-transparent to-background/60" />
         </div>
       </div>
 

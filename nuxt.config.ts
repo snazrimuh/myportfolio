@@ -7,6 +7,17 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'vercel',
+    compressPublicAssets: true,
+  },
+
+  routeRules: {
+    // Admin panel: SPA mode only (saves server resources, no SEO needed)
+    '/admin/**': { ssr: false },
+    // Homepage and public pages: Cache heavily (SWR 1h)
+    '/': { swr: 3600 },
+    '/projects': { swr: 3600 },
+    '/skills': { swr: 3600 },
+    // API proxy (if needed) or specific caching for API routes
   },
 
 
